@@ -1,0 +1,33 @@
+@startuml
+title Cas d'utilisation - DAB
+
+actor Client
+actor Banque
+actor Maintenance
+
+usecase "S'authentifier" as UC_Auth
+usecase "Retirer de l'argent" as UC_Retrait
+usecase "Déposer un chèque" as UC_DeposerCheque
+usecase "Déposer de l'argent liquide" as UC_DeposerCash
+usecase "Consulter solde" as UC_Consulter
+usecase "Imprimer ticket" as UC_Ticket
+
+' Relations entre acteur et cas d'utilisation
+Client --> UC_Retrait
+Client --> UC_DeposerCheque
+Client --> UC_DeposerCash
+Client --> UC_Consulter
+
+Maintenance --> UC_Retrait : supervision
+Banque --> UC_Retrait : vérification autorisation
+
+' Relations entre cas d'utilisation
+UC_Retrait --> UC_Auth : <<include>>
+UC_DeposerCheque --> UC_Auth : <<include>>
+UC_DeposerCash --> UC_Auth : <<include>>
+UC_Consulter --> UC_Auth : <<include>>
+
+UC_Retrait --> UC_Ticket : <<extend>>
+UC_DeposerCheque --> UC_Ticket : <<extend>>
+
+@enduml

@@ -1,0 +1,22 @@
+@startuml
+title Cas d'utilisation - Site de rencontre
+
+actor Utilisateur
+actor Messagerie
+actor BDD
+actor Notification
+actor Authentification_peut_etre
+actor Moderateur
+
+rectangle "Tinder" {
+  usecase "Système de site de rencontre" as UC_Systeme
+}
+
+Utilisateur -up-> UC_Systeme
+Messagerie -up-> UC_Systeme
+BDD -right-> UC_Systeme
+Notification -left-> UC_Systeme
+Authentification_peut_etre -down-> UC_Systeme
+Moderateur -down-> UC_Systeme
+
+@enduml
