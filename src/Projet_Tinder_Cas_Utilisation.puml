@@ -11,7 +11,6 @@ usecase "Réinitialiser mot de passe" as reset_Mdp
 
 'Relations de l'utilisateur'
 usecase "Chercher profil" as chercher_Profil
-usecase "Consulter liste recommandation" as recommandation
 usecase "Signaler utilisateur" as signaler
 usecase "Inscription" as inscription
 usecase "Réinitialiser mot de passe" as reset_Mdp
@@ -62,7 +61,7 @@ package "Infos Personnels" #LightBlue {
 
 package "Espace de configuration" #LightBlue {
 
-    usecase "Espace de configuration" as config_Compte
+    usecase "Espace de configuration" as config_espace
     usecase "Changement visibilité" as config_visibilite
     usecase "Proximite géographique" as config_proximite
     usecase "Choisir age" as config_age
@@ -71,10 +70,10 @@ package "Espace de configuration" #LightBlue {
     usecase "Choix des critères de visibilités des autres" as config_critere_visibilite_autres
     usecase "Configuration notifications" as config_notif
 
-    Utilisateur --> config_Compte
+    Utilisateur --> config_espace
 
-    config_Compte --> config_visibilite
-    config_Compte --> config_notif
+    config_espace --> config_visibilite
+    config_espace --> config_notif
 
     config_visibilite --> config_ses_critere_visibilite
     config_visibilite --> config_critere_visibilite_autres
@@ -88,7 +87,7 @@ package "Espace de configuration" #LightBlue {
     config_critere_visibilite_autres --> config_genre
     config_ses_critere_visibilite --> config_genre
 
-    config_Compte --> Authentification : <<include>>
+    config_espace --> Authentification : <<include>>
 
 }
 
@@ -98,10 +97,13 @@ package "Recommandation" #LightBlue {
     usecase "Utiliser interface de recherche " as reco_interface
     usecase "Recherche profil" as reco_recherche
 
-    reco_consultation --> reco_interface
-    reco_consultation --> reco_recherche
-    reco_consultation --> Authentification : <<include>>
 
+    reco_consultation --> reco_interface
+    reco_recherche --> modif_Centre_Interets
+    reco_recherche --> modif_Ville
+    reco_recherche --> config_espace
+    reco_interface --> reco_recherche
+    reco_consultation --> Authentification : <<include>>
 
 }
 
