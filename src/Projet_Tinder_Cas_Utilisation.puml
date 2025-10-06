@@ -1,33 +1,117 @@
 @startuml
-title Cas d'utilisation - DAB
+title Cas d'utilisation - Tinder
 
-actor Client
-actor Banque
-actor Maintenance
+'Acteurs'
+actor Utilisateur
+actor Service_Notification
+actor Messagerie
 
-usecase "S'authentifier" as UC_Auth
-usecase "Retirer de l'argent" as UC_Retrait
-usecase "Déposer un chèque" as UC_DeposerCheque
-usecase "Déposer de l'argent liquide" as UC_DeposerCash
-usecase "Consulter solde" as UC_Consulter
-usecase "Imprimer ticket" as UC_Ticket
+usecase "Authentification"
+usecase "Réinitialiser mot de passe" as reset_Mdp
 
-' Relations entre acteur et cas d'utilisation
-Client --> UC_Retrait
-Client --> UC_DeposerCheque
-Client --> UC_DeposerCash
-Client --> UC_Consulter
+'Relations de l'utilisateur'
+usecase "Chercher profil" as chercher_Profil
+usecase "Consulter liste recommandation" as recommandation
+usecase "Signaler utilisateur" as signaler
+usecase "Inscription" as inscription
+usecase "Réinitialiser mot de passe" as reset_Mdp
+usecase "Voir messages" as messagerie
 
-Maintenance --> UC_Retrait : supervision
-Banque --> UC_Retrait : vérification autorisation
+package "Infos Personnels" #LightBlue {
 
-' Relations entre cas d'utilisation
-UC_Retrait --> UC_Auth : <<include>>
-UC_DeposerCheque --> UC_Auth : <<include>>
-UC_DeposerCash --> UC_Auth : <<include>>
-UC_Consulter --> UC_Auth : <<include>>
+    usecase "Modifier infos personnels" as modif_Infos
+    usecase "Modifier age" as modif_Age
+    usecase "Modifier genre" as modif_Genre
+    usecase "Modifier ville" as modif_Ville
+    usecase "Modifier Quartier" as modif_Quartier
+    usecase "Choisir texte de présentation" as modif_Texte_Presentation
+    usecase "Choisir centres d'intérêts" as modif_Centre_Interets
+    usecase "Consulter ses photos" as modif_Consultation
+    usecase "Ajouter des photos" as modif_Ajouter_Photos
+    usecase "Supprimer des photos" as modif_Supprimer_Photos
 
-UC_Retrait --> UC_Ticket : <<extend>>
-UC_DeposerCheque --> UC_Ticket : <<extend>>
+    Utilisateur --> modif_Infos
+
+    modif_Infos --> modif_Genre
+    modif_Infos --> modif_Age
+    modif_Infos --> modif_Ville
+    modif_Infos --> modif_Quartier
+    modif_Infos --> modif_Texte_Presentation
+    modif_Infos --> modif_Centre_Interets
+    modif_Infos --> modif_Consultation
+    modif_Consultation --> modif_Ajouter_Photos
+    modif_Consultation --> modif_Supprimer_Photos
+
+    modif_Infos --> Authentification : <<include>>
+
+    /'
+    modif_Genre --> Authentification : <<include>>
+    modif_Age --> Authentification : <<include>>
+    modif_Ville --> Authentification : <<include>>
+    modif_Quartier --> Authentification : <<include>>
+    modif_Texte_Presentation --> Authentification : <<include>>
+    modif_Centre_Interets --> Authentification : <<include>>
+
+    modif_Centre_Interets --> Authentification : <<include>>
+    modif_Consultation --> Authentification : <<include>>
+    modif_Ajouter_Photos --> Authentification : <<include>>
+    modif_Supprimer_Photos --> Authentification : <<include>>
+    '/
+
+}
+
+package "Espace de configuration" #LightBlue {
+
+    usecase "Espace de configuration" as config_Compte
+    usecase "Changement visibilité" as config_visibilite
+    usecase "Proximite géographique" as config_proximite
+    usecase "Choisir age" as config_age
+    usecase "Choisir genre" as config_genre
+    usecase "Choix de ses critères de visibilités" as config_ses_critere_visibilite
+    usecase "Choix des critères de visibilités des autres" as config_critere_visibilite_autres
+    usecase "Configuration notifications" as config_notif
+
+    Utilisateur --> config_Compte
+
+    config_Compte --> config_visibilite
+    config_Compte --> config_notif
+
+    config_visibilite --> config_ses_critere_visibilite
+    config_visibilite --> config_critere_visibilite_autres
+
+    config_critere_visibilite_autres --> config_proximite
+    config_ses_critere_visibilite --> config_proximite
+
+    config_critere_visibilite_autres --> config_age
+    config_ses_critere_visibilite --> config_age
+
+    config_critere_visibilite_autres --> config_genre
+    config_ses_critere_visibilite --> config_genre
+
+    config_Compte --> Authentification : <<include>>
+
+}
+
+package "Recommandation" #LightBlue {
+
+    usecase "Consulter profil recommandé " as reco_consultation
+    usecase "Utiliser interface de recherche " as reco_interface
+    usecase "Recherche profil" as reco_recherche
+
+    reco_consultation --> reco_interface
+    reco_consultation --> reco_recherche
+    reco_consultation --> Authentification : <<include>>
+
+
+}
+
+chercher_Profil --> Authentification : <<include>>
+reset_Mdp --> Authentification : <<include>>
+signaler --> Authentification : <<include>>
+messagerie --> Authentification : <<include>>
+
+
+Authentification --> Service_Notification
+Authentification --> Messagerie
 
 @enduml
