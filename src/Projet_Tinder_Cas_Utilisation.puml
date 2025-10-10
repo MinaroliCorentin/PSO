@@ -208,7 +208,6 @@ package "Recommandation" #LightBlue {
 
 }
 
-
 Authentification --> Messagerie
 
 @enduml

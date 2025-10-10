@@ -6,12 +6,12 @@ left to right direction
 "Notification" as Notification
 "Authentification_peut_etre" as Auth
 "Moderateur" as Moderator
-"Tinder" as (DatingSystem)
+"Tinder" as (AppliDeRencontire)
 
-User --> (DatingSystem)
-Messaging --> (DatingSystem)
-Database --> (DatingSystem)
-Notification --> (DatingSystem)
-Auth --> (DatingSystem)
-Moderator --> (DatingSystem)
+User --> (AppliDeRencontire)
+Messaging --> (AppliDeRencontire)
+Database --> (AppliDeRencontire)
+Notification --> (AppliDeRencontire)
+Auth --> (AppliDeRencontire)
+Moderator --> (AppliDeRencontire)
 @enduml
