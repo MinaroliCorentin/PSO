@@ -5,16 +5,116 @@ title Cas d'utilisation - Tinder
 actor Utilisateur
 actor Service_Notification
 actor Messagerie
+actor Moderateur
+
+
+
+
 
 usecase "Authentification"
-usecase "Réinitialiser mot de passe" as reset_Mdp
 
-'Relations de l'utilisateur'
-usecase "Chercher profil" as chercher_Profil
-usecase "Signaler utilisateur" as signaler
-usecase "Inscription" as inscription
-usecase "Réinitialiser mot de passe" as reset_Mdp
-usecase "Voir messages" as messagerie
+package "Authentifier" #LightBlue {
+
+usecase "S'inscrire" as auth_inscription
+usecase "Vérifier document d'identité" as auth_verif_identite
+
+usecase "Réinitialiser mot de passe" as auth_reset_mdp
+Utilisateur --> auth_inscription
+auth_inscription --> auth_verif_identite : <<include>>
+auth_verif_identite --> Moderateur : <<include>>
+Utilisateur --> auth_reset_mdp
+auth_inscription --> Authentification : <<include>>
+
+}
+
+package "Moderation" #LightBlue {
+
+    usecase "Traiter les signalements" as mod_traiter
+    usecase "Bloquer un profil signalé" as mod_bloquer
+    usecase "Communiquer raison de blocage" as mod_raison_blocage
+    usecase "Vérifier documents utilisateur" as mod_verif_docs
+    usecase "Verifier signalement" as mod_verif_signal
+
+    Moderateur --> mod_verif_signal
+    Moderateur --> mod_verif_docs
+    mod_verif_signal --> mod_traiter
+    mod_traiter --> mod_bloquer
+    mod_traiter --> mod_raison_blocage
+    mod_verif_docs --> auth_verif_identite
+
+}
+
+package "Signalement" #LightBlue {
+
+    usecase "Signaler un utilisateur" as signal_user
+    usecase "Signaler contenu déplacé" as signal_deplace
+    usecase "Signaler contenu offensant" as signal_offensant
+    usecase "Bloquer une conversation" as signal_bloquer_conv
+    usecase "Signaler une conversation" as signal_signaler_conv
+
+
+    signal_user --> signal_deplace
+    signal_user --> signal_offensant
+    signal_deplace --> mod_verif_signal
+    signal_offensant --> mod_verif_signal
+    signal_user --> Authentification : <<include>>
+
+}
+
+package "Message" #LightBlue {
+
+    usecase "Envoyer message privé" as mess_envoyer
+    usecase "Consulter messages reçus" as mess_consulter
+    usecase "Recevoir nouveau message" as mess_recevoir
+    usecase "envoyer email" as mess_email
+    usecase "Accéder à la liste de conversations" as mess_liste
+    usecase "Lire messages non lus" as mess_lire
+
+
+    Utilisateur --> mess_envoyer
+    Utilisateur --> mess_consulter
+    Messagerie --> mess_recevoir
+
+    Utilisateur --> mess_liste
+    mess_liste --> mess_lire
+    mess_liste --> mess_envoyer
+    mess_liste --> signal_bloquer_conv
+    mess_liste --> signal_signaler_conv
+    mess_envoyer --> mess_lire : <<include>>
+
+}
+
+package "Notification" #LightBlue {
+
+    usecase "Acceder au service de notification" as notif_acces
+    usecase "Recevoir notification " as notif_recevoir
+    usecase "Envoyer notification" as notif_envoie
+    usecase "Autoriser utilisation messagerie" as notif_messagerie
+
+    usecase "Consulter ses notifications" as notif_consult
+    usecase "Configurer envoi par email" as notif_email
+
+
+    notif_acces --> notif_consult
+    notif_acces --> notif_envoie
+
+    notif_recevoir --> notif_messagerie
+    notif_messagerie --> mess_recevoir
+
+    notif_acces --> Authentification <<include>>
+    notif_recevoir --> Authentification<<include>>
+
+    Service_Notification --> notif_envoie
+
+    Utilisateur --> notif_consult
+    notif_consult --> notif_recevoir
+    notif_consult --> notif_email
+
+
+}
+
+
+
 
 package "Infos Personnels" #LightBlue {
 
@@ -42,20 +142,6 @@ package "Infos Personnels" #LightBlue {
     modif_Consultation --> modif_Supprimer_Photos
 
     modif_Infos --> Authentification : <<include>>
-
-    /'
-    modif_Genre --> Authentification : <<include>>
-    modif_Age --> Authentification : <<include>>
-    modif_Ville --> Authentification : <<include>>
-    modif_Quartier --> Authentification : <<include>>
-    modif_Texte_Presentation --> Authentification : <<include>>
-    modif_Centre_Interets --> Authentification : <<include>>
-
-    modif_Centre_Interets --> Authentification : <<include>>
-    modif_Consultation --> Authentification : <<include>>
-    modif_Ajouter_Photos --> Authentification : <<include>>
-    modif_Supprimer_Photos --> Authentification : <<include>>
-    '/
 
 }
 
@@ -96,24 +182,41 @@ package "Recommandation" #LightBlue {
     usecase "Consulter profil recommandé " as reco_consultation
     usecase "Utiliser interface de recherche " as reco_interface
     usecase "Recherche profil" as reco_recherche
+    usecase "swipe droite" as reco_interet
+    usecase "envoyer premier message" as reco_message
+    usecase "Créer un match" as reco_match
 
+
+    Utilisateur --> reco_consultation
 
     reco_consultation --> reco_interface
-    reco_recherche --> modif_Centre_Interets
-    reco_recherche --> modif_Ville
-    reco_recherche --> config_espace
+    reco_consultation --> config_proximite
+    reco_consultation --> modif_Centre_Interets
+    reco_consultation --> config_genre
+    reco_consultation --> config_age
+    reco_consultation --> signal_user : <<include>>
+
     reco_interface --> reco_recherche
+
+    reco_recherche --> config_age
+    reco_recherche --> config_genre
+    reco_recherche --> config_proximite
+
+    reco_recherche --> reco_interet
+
+    reco_interet --> reco_message
+    reco_message --> notif_recevoir
+
+    reco_interet --> reco_match : <<include>>
+    reco_match --> notif_messagerie
+    reco_match --> notif_envoie
+
+
     reco_consultation --> Authentification : <<include>>
 
 }
 
-chercher_Profil --> Authentification : <<include>>
-reset_Mdp --> Authentification : <<include>>
-signaler --> Authentification : <<include>>
-messagerie --> Authentification : <<include>>
 
-
-Authentification --> Service_Notification
 Authentification --> Messagerie
 
 @enduml

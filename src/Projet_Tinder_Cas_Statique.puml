@@ -1,22 +1,17 @@
 @startuml
-title Cas d'utilisation - Site de rencontre
+left to right direction
+"Utilisateur" as User
+"Messagerie" as Messaging
+"BDD" as Database
+"Notification" as Notification
+"Authentification_peut_etre" as Auth
+"Moderateur" as Moderator
+"Tinder" as (DatingSystem)
 
-actor Utilisateur
-actor Messagerie
-actor BDD
-actor Notification
-actor Authentification_peut_etre
-actor Moderateur
-
-rectangle "Tinder" {
-  usecase "Système de site de rencontre" as UC_Systeme
-}
-
-Utilisateur -up-> UC_Systeme
-Messagerie -up-> UC_Systeme
-BDD -right-> UC_Systeme
-Notification -left-> UC_Systeme
-Authentification_peut_etre -down-> UC_Systeme
-Moderateur -down-> UC_Systeme
-
+User --> (DatingSystem)
+Messaging --> (DatingSystem)
+Database --> (DatingSystem)
+Notification --> (DatingSystem)
+Auth --> (DatingSystem)
+Moderator --> (DatingSystem)
 @enduml
