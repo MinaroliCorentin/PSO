@@ -6,24 +6,19 @@ actor Utilisateur
 actor Service_Notification
 actor Messagerie
 actor Moderateur
-
-
-
-
-
-usecase "Authentification"
+actor "Authentification"
 
 package "Authentifier" #LightBlue {
 
-usecase "S'inscrire" as auth_inscription
-usecase "Vérifier document d'identité" as auth_verif_identite
+    usecase "S'inscrire" as auth_inscription
+    usecase "Vérifier document d'identité" as auth_verif_identite
+    usecase "Réinitialiser mot de passe" as auth_reset_mdp
 
-usecase "Réinitialiser mot de passe" as auth_reset_mdp
-Utilisateur --> auth_inscription
-auth_inscription --> auth_verif_identite : <<include>>
-auth_verif_identite --> Moderateur : <<include>>
-Utilisateur --> auth_reset_mdp
-auth_inscription --> Authentification : <<include>>
+    Utilisateur --> auth_inscription
+    auth_inscription --> auth_verif_identite : <<include>>
+    auth_verif_identite --> Moderateur : <<include>>
+    Utilisateur --> auth_reset_mdp
+    auth_inscription --> Authentification : <<include>>
 
 }
 
@@ -210,9 +205,6 @@ package "Recommandation" #LightBlue {
     reco_interet --> reco_match : <<include>>
     reco_match --> notif_messagerie
     reco_match --> notif_envoie
-
-
-    reco_consultation --> Authentification : <<include>>
 
 }
 
