@@ -16,14 +16,11 @@ package "Espace de configuration" #LightBlue {
     usecase "Se définir" as config_ses_critere_visibilite
     usecase "Rechercher profil" as config_critere_visibilite_autres
     usecase "Configuration notifications" as config_notif
-    usecase "Envoyer une notification par mail" as config_mail
 
     Utilisateur -- config_espace
 
     config_espace -- config_visibilite
     config_espace -- config_notif
-
-    config_notif -- config_mail
 
     config_visibilite -- config_ses_critere_visibilite
     config_visibilite -left- config_critere_visibilite_autres

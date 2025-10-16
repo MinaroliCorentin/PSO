@@ -1,0 +1,95 @@
+@startuml
+left to right direction
+
+enum Genre {
+
+    Homme
+    Femme
+
+}
+
+'--- Classes ---'
+class Utilisateur {
+    - id: int
+    - nom: String
+    - age: int
+    - genre: String
+    - ville: String
+    - quartier: String
+    - textePresentation: String
+    - centresInterets: List<String>
+    - photos: List<Images>
+    - statutCompte: Enum
+    + signalerUtilisateur()
+    + envoyerMessage(destinataire: Utilisateur, contenu: String)
+    + mettreAJourInfos()
+    + modifierPreferences()
+}
+
+class Message {
+
+    - contenu: String
+    + envoyer()
+    + signaler()
+}
+
+class Notification {
+
+    - mail : boolean
+    - contenu: String
+    + recevoir()
+
+}
+
+class Match {
+
+    + creerMatch(Utilisateur user1, Utilisateur user2)
+    + envoyerPremierMessage()
+    + PermettreConversation()
+}
+
+class Signalement {
+
+    - id: int ( Unique )
+    + Signaler ( Utilisateur user)
+    + traiter()
+    + bloquer()
+}
+
+class Moderateur {
+    - id: int
+    - nom: String
+    + verifierSignalement(signalement: Signalement)
+    + bloquerUtilisateur(utilisateur: Utilisateur)
+    + communiquerBlocage(utilisateur: Utilisateur)
+}
+
+class ConfigurationUtilisateur {
+    - visibilite: Boolean
+    - age: int
+    - genrePrefere: String
+    - ProximiteGeograhpique: ???
+    + mettreAJourPreferences()
+    + mettreAJourVisibilite()
+}
+
+class Authentification {
+    - login: String
+    - motDePasse: String
+    + inscrire()
+    + connecter()
+    + reinitialiserMotDePasse()
+}
+
+
+'--- Relations ---'
+Utilisateur "2" -- "0..*" Message : envoie/recoit
+Utilisateur "2" -- "0..*" Match : entre Utilisateur
+Utilisateur "1" -- "0..*" Signalement : signale/est Signale
+Moderateur "1..*" -- "0..*" Signalement : traite
+Utilisateur "1" -- "1" ConfigurationUtilisateur : configure
+Utilisateur "1" -- "0..*" Notification : reçoit
+Utilisateur "1" -- "1" Genre : identifieComme
+Authentification "0..1" -- "1" Moderateur : confirmerInscription
+
+@enduml

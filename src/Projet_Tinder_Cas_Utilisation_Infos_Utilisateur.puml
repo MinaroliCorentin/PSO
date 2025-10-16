@@ -5,7 +5,7 @@ left to right direction
 actor Utilisateur
 actor "Authentification"
 
-package "Infos Personnels" #LightBlue {
+package "Infos Utilisateur" #LightBlue {
 
     usecase "Modifier infos personnels" as modif_Infos
     usecase "Modifier age" as modif_Age
@@ -33,6 +33,6 @@ package "Infos Personnels" #LightBlue {
 
 }
 
-    "Infos Personnels" ..|> Authentification : <<include>>
+    "Infos Utilisateur" ..|> Authentification : <<include>>
 
 @enduml

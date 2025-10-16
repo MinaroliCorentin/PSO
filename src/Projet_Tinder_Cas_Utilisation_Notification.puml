@@ -8,8 +8,6 @@ actor Utilisateur
 actor Service_Notification
 actor "Authentification"
 
-
-
 package "Notification" #LightBlue {
 
     usecase "Acceder au service de notification" as notif_acces

@@ -66,18 +66,12 @@ package "Notification" #LightBlue {
     usecase "Acceder au service de notification" as notif_acces
     usecase "Recevoir notification " as notif_recevoir
     usecase "Envoyer notification" as notif_envoie
-    usecase "Autoriser utilisation messagerie" as notif_messagerie
 
     usecase "Consulter ses notifications" as notif_consult
     usecase "Configurer envoi par email" as notif_email
 
-
     notif_acces -- notif_consult
     notif_acces -- notif_envoie
-
-    notif_recevoir -- notif_messagerie
-
-    notif_messagerie -- mess_recevoir
 
     Service_Notification -- notif_envoie
 
@@ -89,7 +83,7 @@ package "Notification" #LightBlue {
 }
 
 
-package "Infos Personnels" #LightBlue {
+package "Infos Utilisateur" #LightBlue {
 
     usecase "Modifier infos personnels" as modif_Infos
     usecase "Modifier age" as modif_Age
@@ -128,14 +122,11 @@ package "Espace de configuration" #LightBlue {
     usecase "Se définir" as config_ses_critere_visibilite
     usecase "Rechercher profil" as config_critere_visibilite_autres
     usecase "Configuration notifications" as config_notif
-    usecase "Envoyer une notification par mail" as config_mail
 
     Utilisateur -- config_espace
 
     config_espace -- config_visibilite
     config_espace -- config_notif
-
-    config_notif -- config_mail
 
     config_visibilite -- config_ses_critere_visibilite
     config_visibilite -- config_critere_visibilite_autres
@@ -172,18 +163,14 @@ package "Recommandation" #LightBlue {
     reco_recherche -- config_age
     reco_recherche -- config_genre
     reco_recherche -- config_proximite
-
     reco_recherche -- reco_interet
 
     reco_interet ..> reco_match : <<include>>
     reco_interet -- reco_message
 
-    reco_message -- mess_recevoir
-    reco_message -- notif_messagerie
+    reco_message -- mess_recevoir : <<implique>>
 
-
-    reco_match -- notif_messagerie
-    reco_match -- mess_recevoir
+    reco_match -- mess_recevoir : <<implique>>
 
 }
 
@@ -201,7 +188,7 @@ package "Authentifier" #LightBlue {
 
 "Recommandation" ..|> Authentification : <<requis>>
 "Espace de configuration" ..|> Authentification : <<requis>>
-"Infos Personnels"  ..|> Authentification : <<requis>>
+"Infos Utilisateur"  ..|> Authentification : <<requis>>
 "Notification" ..|> Authentification : <<requis>>
 "Message" ..|> Authentification : <<requis>>
 "Signalement" ..|> Authentification : <<requis>>
