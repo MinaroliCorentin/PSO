@@ -15,10 +15,10 @@ package "Authentifier" #LightBlue {
     usecase "Réinitialiser mot de passe" as auth_reset_mdp
 
     Utilisateur --> auth_inscription
-    auth_inscription --> auth_verif_identite : <<include>>
-    auth_verif_identite --> Moderateur : <<include>>
+    auth_inscription ..|> auth_verif_identite : <<include>>
+    auth_verif_identite ..|> Moderateur : <<include>>
     Utilisateur --> auth_reset_mdp
-    auth_inscription --> Authentification : <<include>>
+    auth_inscription ..> Authentification : <<include>>
 
 }
 
@@ -30,12 +30,12 @@ package "Moderation" #LightBlue {
     usecase "Vérifier documents utilisateur" as mod_verif_docs
     usecase "Verifier signalement" as mod_verif_signal
 
-    Moderateur --> mod_verif_signal
-    Moderateur --> mod_verif_docs
-    mod_verif_signal --> mod_traiter
-    mod_traiter --> mod_bloquer
-    mod_traiter --> mod_raison_blocage
-    mod_verif_docs --> auth_verif_identite
+    Moderateur -- mod_verif_signal
+    Moderateur -- mod_verif_docs
+    mod_verif_signal -- mod_traiter
+    mod_traiter -- mod_bloquer
+    mod_traiter -- mod_raison_blocage
+    mod_verif_docs -- auth_verif_identite
 
 }
 
@@ -48,11 +48,11 @@ package "Signalement" #LightBlue {
     usecase "Signaler une conversation" as signal_signaler_conv
 
 
-    signal_user --> signal_deplace
-    signal_user --> signal_offensant
-    signal_deplace --> mod_verif_signal
-    signal_offensant --> mod_verif_signal
-    signal_user --> Authentification : <<include>>
+    signal_user -- signal_deplace
+    signal_user -- signal_offensant
+    signal_deplace -- mod_verif_signal
+    signal_offensant -- mod_verif_signal
+    signal_user ..> Authentification : <<include>>
 
 }
 
@@ -66,16 +66,16 @@ package "Message" #LightBlue {
     usecase "Lire messages non lus" as mess_lire
 
 
-    Utilisateur --> mess_envoyer
-    Utilisateur --> mess_consulter
-    Messagerie --> mess_recevoir
+    Utilisateur -- mess_envoyer
+    Utilisateur -- mess_consulter
+    Messagerie -- mess_recevoir
 
-    Utilisateur --> mess_liste
-    mess_liste --> mess_lire
-    mess_liste --> mess_envoyer
-    mess_liste --> signal_bloquer_conv
-    mess_liste --> signal_signaler_conv
-    mess_envoyer --> mess_lire : <<include>>
+    Utilisateur -- mess_liste
+    mess_liste -- mess_lire
+    mess_liste -> mess_envoyer
+    mess_liste -- signal_bloquer_conv
+    mess_liste -- signal_signaler_conv
+    mess_envoyer ..> mess_lire : <<include>>
 
 }
 
@@ -90,20 +90,20 @@ package "Notification" #LightBlue {
     usecase "Configurer envoi par email" as notif_email
 
 
-    notif_acces --> notif_consult
-    notif_acces --> notif_envoie
+    notif_acces -- notif_consult
+    notif_acces -- notif_envoie
 
-    notif_recevoir --> notif_messagerie
-    notif_messagerie --> mess_recevoir
+    notif_recevoir -- notif_messagerie
+    notif_messagerie -- mess_recevoir
 
-    notif_acces --> Authentification <<include>>
-    notif_recevoir --> Authentification<<include>>
+    notif_acces ..> Authentification <<include>>
+    notif_recevoir ..> Authentification<<include>>
 
-    Service_Notification --> notif_envoie
+    Service_Notification -- notif_envoie
 
-    Utilisateur --> notif_consult
-    notif_consult --> notif_recevoir
-    notif_consult --> notif_email
+    Utilisateur -- notif_consult
+    notif_consult -- notif_recevoir
+    notif_consult -- notif_email
 
 
 }
@@ -124,19 +124,19 @@ package "Infos Personnels" #LightBlue {
     usecase "Ajouter des photos" as modif_Ajouter_Photos
     usecase "Supprimer des photos" as modif_Supprimer_Photos
 
-    Utilisateur --> modif_Infos
+    Utilisateur -- modif_Infos
 
-    modif_Infos --> modif_Genre
-    modif_Infos --> modif_Age
-    modif_Infos --> modif_Ville
-    modif_Infos --> modif_Quartier
-    modif_Infos --> modif_Texte_Presentation
-    modif_Infos --> modif_Centre_Interets
-    modif_Infos --> modif_Consultation
-    modif_Consultation --> modif_Ajouter_Photos
-    modif_Consultation --> modif_Supprimer_Photos
+    modif_Infos -- modif_Genre
+    modif_Infos -- modif_Age
+    modif_Infos -- modif_Ville
+    modif_Infos -- modif_Quartier
+    modif_Infos -- modif_Texte_Presentation
+    modif_Infos -- modif_Centre_Interets
+    modif_Infos -- modif_Consultation
+    modif_Consultation -- modif_Ajouter_Photos
+    modif_Consultation -- modif_Supprimer_Photos
 
-    modif_Infos --> Authentification : <<include>>
+    modif_Infos ..> Authentification : <<include>>
 
 }
 
@@ -151,24 +151,24 @@ package "Espace de configuration" #LightBlue {
     usecase "Choix des critères de visibilités des autres" as config_critere_visibilite_autres
     usecase "Configuration notifications" as config_notif
 
-    Utilisateur --> config_espace
+    Utilisateur -- config_espace
 
-    config_espace --> config_visibilite
-    config_espace --> config_notif
+    config_espace -- config_visibilite
+    config_espace -- config_notif
 
-    config_visibilite --> config_ses_critere_visibilite
-    config_visibilite --> config_critere_visibilite_autres
+    config_visibilite -- config_ses_critere_visibilite
+    config_visibilite -- config_critere_visibilite_autres
 
-    config_critere_visibilite_autres --> config_proximite
-    config_ses_critere_visibilite --> config_proximite
+    config_critere_visibilite_autres -- config_proximite
+    config_ses_critere_visibilite -- config_proximite
 
-    config_critere_visibilite_autres --> config_age
-    config_ses_critere_visibilite --> config_age
+    config_critere_visibilite_autres -- config_age
+    config_ses_critere_visibilite -- config_age
 
-    config_critere_visibilite_autres --> config_genre
-    config_ses_critere_visibilite --> config_genre
+    config_critere_visibilite_autres -- config_genre
+    config_ses_critere_visibilite -- config_genre
 
-    config_espace --> Authentification : <<include>>
+    config_espace ..> Authentification : <<include>>
 
 }
 
@@ -182,32 +182,32 @@ package "Recommandation" #LightBlue {
     usecase "Créer un match" as reco_match
 
 
-    Utilisateur --> reco_consultation
+    Utilisateur -- reco_consultation
+    Utilisateur -- reco_interface
 
-    reco_consultation --> reco_interface
-    reco_consultation --> config_proximite
-    reco_consultation --> modif_Centre_Interets
-    reco_consultation --> config_genre
-    reco_consultation --> config_age
-    reco_consultation --> signal_user : <<include>>
+    reco_consultation -- config_proximite
+    reco_consultation -- modif_Centre_Interets
+    reco_consultation -- config_genre
+    reco_consultation -- config_age
+    reco_consultation ..> signal_user : <<include>>
 
-    reco_interface --> reco_recherche
+    reco_interface -- reco_recherche
 
-    reco_recherche --> config_age
-    reco_recherche --> config_genre
-    reco_recherche --> config_proximite
+    reco_recherche -- config_age
+    reco_recherche -- config_genre
+    reco_recherche -- config_proximite
 
-    reco_recherche --> reco_interet
+    reco_recherche -- reco_interet
 
-    reco_interet --> reco_message
-    reco_message --> notif_recevoir
+    reco_interet -- reco_message
+    reco_message -- notif_recevoir
 
-    reco_interet --> reco_match : <<include>>
-    reco_match --> notif_messagerie
-    reco_match --> notif_envoie
+    reco_interet ..> reco_match : <<include>>
+    reco_match -- notif_messagerie
+    reco_match -- notif_envoie
 
 }
 
-Authentification --> Messagerie
+Authentification -- Messagerie
 
 @enduml
