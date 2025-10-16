@@ -1,14 +1,9 @@
-Projet_Tinder_Cas_Utilisation_Notification.puml@startuml
-
+@startuml
 left to right direction
-title Cas d'utilisation - Tinder
 
 'Acteurs'
 actor Utilisateur
 actor "Authentification"
-
-
-
 
 package "Infos Personnels" #LightBlue {
 
@@ -32,14 +27,12 @@ package "Infos Personnels" #LightBlue {
     modif_Infos -- modif_Texte_Presentation
     modif_Infos -- modif_Centre_Interets
     modif_Infos -- modif_Consultation
-    modif_Infos ..> Authentification : <<include>>
 
     modif_Consultation -- modif_Ajouter_Photos
     modif_Consultation -- modif_Supprimer_Photos
 
-
 }
 
-
+    "Infos Personnels" ..|> Authentification : <<include>>
 
 @enduml

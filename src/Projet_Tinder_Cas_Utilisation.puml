@@ -8,21 +8,7 @@ actor Utilisateur
 actor Service_Notification
 actor Messagerie
 actor Moderateur
-actor "Authentification"
-
-package "Authentifier" #LightBlue {
-
-    usecase "S'inscrire" as auth_inscription
-    usecase "Vérifier document d'identité" as auth_verif_identite
-    usecase "Réinitialiser mot de passe" as auth_reset_mdp
-
-    Utilisateur -- auth_inscription
-    auth_inscription -- auth_verif_identite : <<requis>>
-    auth_verif_identite ..|> Moderateur : <<include>>
-    Utilisateur -- auth_reset_mdp
-    auth_inscription ..> Authentification : <<include>>
-
-}
+actor Authentification
 
 package "Moderation" #LightBlue {
 
@@ -37,7 +23,6 @@ package "Moderation" #LightBlue {
     mod_verif_signal -- mod_traiter
     mod_traiter -- mod_bloquer
     mod_traiter -- mod_raison_blocage
-    mod_verif_docs -- auth_verif_identite
 
 }
 
@@ -54,7 +39,6 @@ package "Signalement" #LightBlue {
     signal_user -- signal_offensant
     signal_deplace -- mod_verif_signal
     signal_offensant -- mod_verif_signal
-    signal_user ..> Authentification : <<include>>
 
 }
 
@@ -64,20 +48,16 @@ package "Message" #LightBlue {
     usecase "Consulter messages reçus" as mess_consulter
     usecase "Recevoir nouveau message" as mess_recevoir
     usecase "Accéder à la liste de conversations" as mess_liste
-    usecase "Lire messages non lus" as mess_lire
+    usecase "Signaler conversation" as signal_signaler_conv
+    usecase "Bloquer conversation" as signal_bloquer_conv
 
-    Utilisateur -- mess_envoyer
     Utilisateur -- mess_consulter
     Utilisateur -- mess_liste
-
     Messagerie -- mess_recevoir
 
-    mess_liste -- mess_lire
     mess_liste -- mess_envoyer
     mess_liste -- signal_bloquer_conv
     mess_liste -- signal_signaler_conv
-
-    mess_envoyer ..> mess_lire : <<include>>
 
 }
 
@@ -94,10 +74,8 @@ package "Notification" #LightBlue {
 
     notif_acces -- notif_consult
     notif_acces -- notif_envoie
-    notif_acces ..> Authentification <<include>>
 
     notif_recevoir -- notif_messagerie
-    notif_recevoir ..> Authentification<<include>>
 
     notif_messagerie -- mess_recevoir
 
@@ -133,7 +111,6 @@ package "Infos Personnels" #LightBlue {
     modif_Infos -- modif_Texte_Presentation
     modif_Infos -- modif_Centre_Interets
     modif_Infos -- modif_Consultation
-    modif_Infos ..> Authentification : <<include>>
 
     modif_Consultation -- modif_Ajouter_Photos
     modif_Consultation -- modif_Supprimer_Photos
@@ -157,7 +134,6 @@ package "Espace de configuration" #LightBlue {
 
     config_espace -- config_visibilite
     config_espace -- config_notif
-    config_espace ..> Authentification : <<include>>
 
     config_notif -- config_mail
 
@@ -189,7 +165,7 @@ package "Recommandation" #LightBlue {
     Utilisateur -- reco_interface
 
     reco_consultation -- config_critere_visibilite_autres
-    reco_consultation ..> signal_user : <<include>>
+    reco_consultation -- signal_user
 
     reco_interface -- reco_recherche
 
@@ -202,13 +178,34 @@ package "Recommandation" #LightBlue {
     reco_interet ..> reco_match : <<include>>
     reco_interet -- reco_message
 
-    reco_message -- notif_recevoir
+    reco_message -- mess_recevoir
+    reco_message -- notif_messagerie
+
 
     reco_match -- notif_messagerie
-    reco_match -- notif_envoie
+    reco_match -- mess_recevoir
 
 }
 
-Authentification -- Messagerie
+
+package "Authentifier" #LightBlue {
+
+    usecase "S'inscrire" as auth_inscription
+    usecase "Réinitialiser mot de passe" as auth_reset_mdp
+
+    Utilisateur -- auth_inscription
+    auth_inscription -- mod_verif_docs : <<requis>>
+    Utilisateur -- auth_reset_mdp
+
+}
+
+"Recommandation" ..|> Authentification : <<requis>>
+"Espace de configuration" ..|> Authentification : <<requis>>
+"Infos Personnels"  ..|> Authentification : <<requis>>
+"Notification" ..|> Authentification : <<requis>>
+"Message" ..|> Authentification : <<requis>>
+"Signalement" ..|> Authentification : <<requis>>
+"Moderation" ..|> Authentification : <<requis>>
+
 
 @enduml

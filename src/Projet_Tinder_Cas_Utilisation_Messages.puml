@@ -1,0 +1,32 @@
+@startuml
+left to right direction
+
+'Acteurs'
+actor Utilisateur
+actor "Service de Messagerie" as Messagerie
+actor "Service d'Authentification" as Authentification
+
+package "Message" #LightBlue {
+
+    usecase "Envoyer message privé" as mess_envoyer
+    usecase "Consulter messages reçus" as mess_consulter
+    usecase "Recevoir nouveau message" as mess_recevoir
+    usecase "Accéder à la liste de conversations" as mess_liste
+    usecase "Signaler conversation" as signal_signaler_conv
+    usecase "Bloquer conversation" as signal_bloquer_conv
+
+    Utilisateur -- mess_consulter
+    Utilisateur -- mess_liste
+    Messagerie -- mess_recevoir
+
+    mess_liste -- mess_envoyer
+    mess_liste -- signal_bloquer_conv
+    mess_liste -- signal_signaler_conv
+
+    Message .left.> Authentification : <<include>>
+
+}
+
+
+
+@enduml

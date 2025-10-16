@@ -1,27 +1,33 @@
-Projet_Tinder_Cas_Utilisation_Notification.puml@startuml
+@startuml
 
 left to right direction
-title Cas d'utilisation - Tinder
 
 'Acteurs'
 actor Utilisateur
-actor Service_Notification
-actor Messagerie
 actor Moderateur
-actor "Authentification"
+actor Authentification
+
+
+package "Moderation" #LightBlue {
+
+    usecase "Vérifier document d'identité" as auth_verif_identite
+
+}
 
 package "Authentifier" #LightBlue {
 
     usecase "S'inscrire" as auth_inscription
-    usecase "Vérifier document d'identité" as auth_verif_identite
     usecase "Réinitialiser mot de passe" as auth_reset_mdp
 
     Utilisateur -- auth_inscription
     auth_inscription -- auth_verif_identite : <<requis>>
     auth_verif_identite ..|> Moderateur : <<include>>
     Utilisateur -- auth_reset_mdp
-    auth_inscription ..> Authentification : <<include>>
 
 }
+
+Authentifier -- "Authentification"
+Moderation -- "Authentification"
+
 
 @enduml

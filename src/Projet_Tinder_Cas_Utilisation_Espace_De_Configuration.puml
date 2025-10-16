@@ -1,12 +1,10 @@
 @startuml
 
 left to right direction
-title Cas d'utilisation - Tinder
 
 'Acteurs'
 actor Utilisateur
 actor "Authentification"
-
 
 package "Espace de configuration" #LightBlue {
 
@@ -24,7 +22,6 @@ package "Espace de configuration" #LightBlue {
 
     config_espace -- config_visibilite
     config_espace -- config_notif
-    config_espace ..> Authentification : <<include>>
 
     config_notif -- config_mail
 
@@ -40,5 +37,8 @@ package "Espace de configuration" #LightBlue {
     config_ses_critere_visibilite -down- config_genre
 
 }
+
+    "Espace de configuration" ..> Authentification : <<include>>
+
 
 @enduml

@@ -4,40 +4,16 @@ left to right direction
 title Cas d'utilisation - Tinder
 
 'Acteurs'
-actor Utilisateur
-actor Service_Notification
-actor Messagerie
 actor Moderateur
 actor "Authentification"
 
-package "Authentifier" #LightBlue {
-
-    usecase "S'inscrire" as auth_inscription
-    usecase "Vérifier document d'identité" as auth_verif_identite
-    usecase "Réinitialiser mot de passe" as auth_reset_mdp
-
-    Utilisateur -- auth_inscription
-    auth_inscription -- auth_verif_identite : <<requis>>
-    auth_verif_identite ..|> Moderateur : <<include>>
-    Utilisateur -- auth_reset_mdp
-    auth_inscription ..> Authentification : <<include>>
-
-}
 
 package "Moderation" #LightBlue {
 
-    usecase "Traiter les signalements" as mod_traiter
-    usecase "Bloquer un profil signalé" as mod_bloquer
-    usecase "Communiquer raison de blocage" as mod_raison_blocage
-    usecase "Vérifier documents utilisateur" as mod_verif_docs
     usecase "Verifier signalement" as mod_verif_signal
 
     Moderateur -- mod_verif_signal
-    Moderateur -- mod_verif_docs
-    mod_verif_signal -- mod_traiter
-    mod_traiter -- mod_bloquer
-    mod_traiter -- mod_raison_blocage
-    mod_verif_docs -- auth_verif_identite
+
 
 }
 
@@ -54,161 +30,8 @@ package "Signalement" #LightBlue {
     signal_user -- signal_offensant
     signal_deplace -- mod_verif_signal
     signal_offensant -- mod_verif_signal
-    signal_user ..> Authentification : <<include>>
+    Signalement ..> Authentification : <<requis>>
 
 }
-
-package "Message" #LightBlue {
-
-    usecase "Envoyer message privé" as mess_envoyer
-    usecase "Consulter messages reçus" as mess_consulter
-    usecase "Recevoir nouveau message" as mess_recevoir
-    usecase "Accéder à la liste de conversations" as mess_liste
-    usecase "Lire messages non lus" as mess_lire
-
-    Utilisateur -- mess_envoyer
-    Utilisateur -- mess_consulter
-    Utilisateur -- mess_liste
-
-    Messagerie -- mess_recevoir
-
-    mess_liste -- mess_lire
-    mess_liste -- mess_envoyer
-    mess_liste -- signal_bloquer_conv
-    mess_liste -- signal_signaler_conv
-
-    mess_envoyer ..> mess_lire : <<include>>
-
-}
-
-package "Notification" #LightBlue {
-
-    usecase "Acceder au service de notification" as notif_acces
-    usecase "Recevoir notification " as notif_recevoir
-    usecase "Envoyer notification" as notif_envoie
-    usecase "Autoriser utilisation messagerie" as notif_messagerie
-
-    usecase "Consulter ses notifications" as notif_consult
-    usecase "Configurer envoi par email" as notif_email
-
-
-    notif_acces -- notif_consult
-    notif_acces -- notif_envoie
-    notif_acces ..> Authentification <<include>>
-
-    notif_recevoir -- notif_messagerie
-    notif_recevoir ..> Authentification<<include>>
-
-    notif_messagerie -- mess_recevoir
-
-    Service_Notification -- notif_envoie
-
-    Utilisateur -- notif_consult
-
-    notif_consult -- notif_recevoir
-    notif_consult -- notif_email
-
-}
-
-
-package "Infos Personnels" #LightBlue {
-
-    usecase "Modifier infos personnels" as modif_Infos
-    usecase "Modifier age" as modif_Age
-    usecase "Modifier genre" as modif_Genre
-    usecase "Modifier ville" as modif_Ville
-    usecase "Modifier Quartier" as modif_Quartier
-    usecase "Choisir texte de présentation" as modif_Texte_Presentation
-    usecase "Choisir centres d'intérêts" as modif_Centre_Interets
-    usecase "Consulter ses photos" as modif_Consultation
-    usecase "Ajouter des photos" as modif_Ajouter_Photos
-    usecase "Supprimer des photos" as modif_Supprimer_Photos
-
-    Utilisateur -- modif_Infos
-
-    modif_Infos -- modif_Genre
-    modif_Infos -- modif_Age
-    modif_Infos -- modif_Ville
-    modif_Infos -- modif_Quartier
-    modif_Infos -- modif_Texte_Presentation
-    modif_Infos -- modif_Centre_Interets
-    modif_Infos -- modif_Consultation
-    modif_Infos ..> Authentification : <<include>>
-
-    modif_Consultation -- modif_Ajouter_Photos
-    modif_Consultation -- modif_Supprimer_Photos
-
-
-}
-
-package "Espace de configuration" #LightBlue {
-
-    usecase "Espace de configuration" as config_espace
-    usecase "Changement visibilité" as config_visibilite
-    usecase "Proximite géographique" as config_proximite
-    usecase "Choisir age" as config_age
-    usecase "Choisir genre" as config_genre
-    usecase "Se définir" as config_ses_critere_visibilite
-    usecase "Rechercher profil" as config_critere_visibilite_autres
-    usecase "Configuration notifications" as config_notif
-    usecase "Envoyer une notification par mail" as config_mail
-
-    Utilisateur -- config_espace
-
-    config_espace -- config_visibilite
-    config_espace -- config_notif
-    config_espace ..> Authentification : <<include>>
-
-    config_notif -- config_mail
-
-    config_visibilite -- config_ses_critere_visibilite
-    config_visibilite -- config_critere_visibilite_autres
-
-    config_critere_visibilite_autres -- config_proximite
-    config_critere_visibilite_autres -- config_age
-    config_critere_visibilite_autres -- config_genre
-
-    config_ses_critere_visibilite -- config_proximite
-    config_ses_critere_visibilite -- config_age
-    config_ses_critere_visibilite -- config_genre
-
-
-}
-
-package "Recommandation" #LightBlue {
-
-    usecase "Consulter profil recommandé " as reco_consultation
-    usecase "Utiliser interface de recherche " as reco_interface
-    usecase "Recherche profil" as reco_recherche
-    usecase "swipe droite" as reco_interet
-    usecase "envoyer premier message" as reco_message
-    usecase "Créer un match" as reco_match
-
-
-    Utilisateur -- reco_consultation
-    Utilisateur -- reco_interface
-
-    reco_consultation -- config_critere_visibilite_autres
-    reco_consultation ..> signal_user : <<include>>
-
-    reco_interface -- reco_recherche
-
-    reco_recherche -- config_age
-    reco_recherche -- config_genre
-    reco_recherche -- config_proximite
-
-    reco_recherche -- reco_interet
-
-    reco_interet ..> reco_match : <<include>>
-    reco_interet -- reco_message
-
-    reco_message -- notif_recevoir
-
-    reco_match -- notif_messagerie
-    reco_match -- notif_envoie
-
-}
-
-Authentification -- Messagerie
 
 @enduml
