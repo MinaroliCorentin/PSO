@@ -1,0 +1,44 @@
+@startuml
+
+left to right direction
+title Cas d'utilisation - Tinder
+
+'Acteurs'
+actor Utilisateur
+actor "Authentification"
+
+
+package "Espace de configuration" #LightBlue {
+
+    usecase "Espace de configuration" as config_espace
+    usecase "Changement visibilité" as config_visibilite
+    usecase "Proximite géographique" as config_proximite
+    usecase "Choisir age" as config_age
+    usecase "Choisir genre" as config_genre
+    usecase "Se définir" as config_ses_critere_visibilite
+    usecase "Rechercher profil" as config_critere_visibilite_autres
+    usecase "Configuration notifications" as config_notif
+    usecase "Envoyer une notification par mail" as config_mail
+
+    Utilisateur -- config_espace
+
+    config_espace -- config_visibilite
+    config_espace -- config_notif
+    config_espace ..> Authentification : <<include>>
+
+    config_notif -- config_mail
+
+    config_visibilite -- config_ses_critere_visibilite
+    config_visibilite -left- config_critere_visibilite_autres
+
+    config_critere_visibilite_autres -up- config_proximite
+    config_critere_visibilite_autres -up- config_age
+    config_critere_visibilite_autres -up- config_genre
+
+    config_ses_critere_visibilite -down- config_proximite
+    config_ses_critere_visibilite -down- config_age
+    config_ses_critere_visibilite -down- config_genre
+
+}
+
+@enduml

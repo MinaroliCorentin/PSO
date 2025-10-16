@@ -2,15 +2,13 @@
 left to right direction
 "Utilisateur" as User
 "Messagerie" as Messaging
-"BDD" as Database
 "Notification" as Notification
-"Authentification_peut_etre" as Auth
+"Authentification" as Auth
 "Moderateur" as Moderator
 "Tinder" as (AppliDeRencontire)
 
 User --> (AppliDeRencontire)
 Messaging --> (AppliDeRencontire)
-Database --> (AppliDeRencontire)
 Notification --> (AppliDeRencontire)
 Auth --> (AppliDeRencontire)
 Moderator --> (AppliDeRencontire)

@@ -1,0 +1,45 @@
+Projet_Tinder_Cas_Utilisation_Notification.puml@startuml
+
+left to right direction
+title Cas d'utilisation - Tinder
+
+'Acteurs'
+actor Utilisateur
+actor "Authentification"
+
+
+
+
+package "Infos Personnels" #LightBlue {
+
+    usecase "Modifier infos personnels" as modif_Infos
+    usecase "Modifier age" as modif_Age
+    usecase "Modifier genre" as modif_Genre
+    usecase "Modifier ville" as modif_Ville
+    usecase "Modifier Quartier" as modif_Quartier
+    usecase "Choisir texte de présentation" as modif_Texte_Presentation
+    usecase "Choisir centres d'intérêts" as modif_Centre_Interets
+    usecase "Consulter ses photos" as modif_Consultation
+    usecase "Ajouter des photos" as modif_Ajouter_Photos
+    usecase "Supprimer des photos" as modif_Supprimer_Photos
+
+    Utilisateur -- modif_Infos
+
+    modif_Infos -- modif_Genre
+    modif_Infos -- modif_Age
+    modif_Infos -- modif_Ville
+    modif_Infos -- modif_Quartier
+    modif_Infos -- modif_Texte_Presentation
+    modif_Infos -- modif_Centre_Interets
+    modif_Infos -- modif_Consultation
+    modif_Infos ..> Authentification : <<include>>
+
+    modif_Consultation -- modif_Ajouter_Photos
+    modif_Consultation -- modif_Supprimer_Photos
+
+
+}
+
+
+
+@enduml
