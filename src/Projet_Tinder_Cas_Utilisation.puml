@@ -151,6 +151,7 @@ package "Espace de configuration" #LightBlue {
     usecase "Choix des critères de visibilités des autres" as config_critere_visibilite_autres
     usecase "Configuration notifications" as config_notif
 
+
     Utilisateur -- config_espace
 
     config_espace -- config_visibilite
