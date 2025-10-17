@@ -10,7 +10,6 @@ actor "Authentification"
 
 package "Notification" #LightBlue {
 
-    usecase "Acceder au service de notification" as notif_acces
     usecase "Recevoir notification " as notif_recevoir
     usecase "Envoyer notification" as notif_envoie
     usecase "Autoriser utilisation messagerie" as notif_messagerie
@@ -18,9 +17,6 @@ package "Notification" #LightBlue {
     usecase "Consulter ses notifications" as notif_consult
     usecase "Configurer envoi par email" as notif_email
 
-
-    notif_acces -- notif_consult
-    notif_acces -- notif_envoie
 
     notif_recevoir -- notif_messagerie
 
@@ -34,20 +30,15 @@ package "Notification" #LightBlue {
 
 package "Recommandation" #LightBlue {
 
-    usecase "Utiliser interface de recherche " as reco_interface
-    usecase "Recherche profil" as reco_recherche
     usecase "swipe droite" as reco_interet
     usecase "envoyer premier message" as reco_message
     usecase "Créer un match" as reco_match
 
-
-    Utilisateur -- reco_interface
-
-
-    reco_interface -- reco_recherche
+    Utilisateur -Up- reco_interet
 
 
-    reco_recherche -- reco_interet
+
+
 
     reco_interet ..> reco_match : <<include>>
     reco_interet -- reco_message

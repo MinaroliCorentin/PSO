@@ -8,7 +8,6 @@ actor "Authentification"
 
 package "Espace de configuration" #LightBlue {
 
-    usecase "Espace de configuration" as config_espace
     usecase "Changement visibilité" as config_visibilite
     usecase "Proximite géographique" as config_proximite
     usecase "Choisir age" as config_age
@@ -17,10 +16,9 @@ package "Espace de configuration" #LightBlue {
     usecase "Rechercher profil" as config_critere_visibilite_autres
     usecase "Configuration notifications" as config_notif
 
-    Utilisateur -- config_espace
 
-    config_espace -- config_visibilite
-    config_espace -- config_notif
+    Utilisateur -- config_visibilite
+    Utilisateur -- config_notif
 
     config_visibilite -- config_ses_critere_visibilite
     config_visibilite -left- config_critere_visibilite_autres

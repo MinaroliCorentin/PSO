@@ -13,7 +13,6 @@ package "Moderation" #LightBlue {
 
     usecase "Traiter les signalements" as mod_traiter
     usecase "Bloquer un profil signalé" as mod_bloquer
-    usecase "Communiquer raison de blocage" as mod_raison_blocage
     usecase "Vérifier documents utilisateur" as mod_verif_docs
     usecase "Verifier signalement" as mod_verif_signal
 
@@ -21,7 +20,7 @@ package "Moderation" #LightBlue {
     Moderateur -- mod_verif_docs
     mod_verif_signal -- mod_traiter
     mod_traiter -- mod_bloquer
-    mod_traiter -- mod_raison_blocage
+
 
 }
 
@@ -35,6 +34,7 @@ package "Signalement" #LightBlue {
     signal_user -- signal_offensant
     signal_deplace -- mod_verif_signal
     signal_offensant -- mod_verif_signal
+    Utilisateur -- signal_user
 
 }
 
