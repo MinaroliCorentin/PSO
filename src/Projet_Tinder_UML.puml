@@ -20,6 +20,12 @@ class Utilisateur {
     - centresInterets: List<String>
     - photos: List<Images>
     - statutCompte: Enum
+    - visibilite: Boolean
+    - age: int
+    - genrePrefere: String
+    - ProximiteGeograhpique: ???
+    + mettreAJourPreferences()
+    + mettreAJourVisibilite()
     + signalerUtilisateur()
     + envoyerMessage(destinataire: Utilisateur, contenu: String)
     + mettreAJourInfos()
@@ -64,14 +70,6 @@ class Moderateur {
     + communiquerBlocage(utilisateur: Utilisateur)
 }
 
-class ConfigurationUtilisateur {
-    - visibilite: Boolean
-    - age: int
-    - genrePrefere: String
-    - ProximiteGeograhpique: ???
-    + mettreAJourPreferences()
-    + mettreAJourVisibilite()
-}
 
 class Authentification {
     - login: String
@@ -87,9 +85,9 @@ Utilisateur "2" -- "0..*" Message : envoie/recoit
 Utilisateur "2" -- "0..*" Match : entre Utilisateur
 Utilisateur "1" -- "0..*" Signalement : signale/est Signale
 Moderateur "1..*" -- "0..*" Signalement : traite
-Utilisateur "1" -- "1" ConfigurationUtilisateur : configure
 Utilisateur "1" -- "0..*" Notification : reçoit
 Utilisateur "1" -- "1" Genre : identifieComme
 Authentification "0..1" -- "1" Moderateur : confirmerInscription
+Authentification "0..1" -- "0..1" Utilisateur : PermetLaConnection
 
 @enduml
