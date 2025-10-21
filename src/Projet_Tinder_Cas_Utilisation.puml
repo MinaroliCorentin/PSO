@@ -5,22 +5,25 @@ title Cas d'utilisation - Tinder
 
 'Acteurs'
 actor Utilisateur
-actor Service_Notification
 actor Messagerie
 actor Moderateur
-actor Authentification
+
+package "Authentification" #LightBlue {
+
+    usecase "Authentification" as auth
+
+}
 
 package "Moderation" #LightBlue {
 
-    usecase "Traiter les signalements" as mod_traiter
     usecase "Bloquer un profil signalé" as mod_bloquer
     usecase "Vérifier documents utilisateur" as mod_verif_docs
     usecase "Verifier signalement" as mod_verif_signal
 
-    Moderateur -- mod_verif_signal
+    Moderateur -- mod_bloquer
     Moderateur -- mod_verif_docs
-    mod_verif_signal -- mod_traiter
-    mod_traiter -- mod_bloquer
+    Moderateur -- mod_verif_signal
+    mod_bloquer -- mod_verif_signal
 
 }
 
@@ -29,14 +32,10 @@ package "Signalement" #LightBlue {
     usecase "Signaler un utilisateur" as signal_user
     usecase "Signaler contenu déplacé" as signal_deplace
     usecase "Signaler contenu offensant" as signal_offensant
-    usecase "Bloquer une conversation" as signal_bloquer_conv
-    usecase "Signaler une conversation" as signal_signaler_conv
 
-
-    signal_user -- signal_deplace
-    signal_user -- signal_offensant
-    signal_deplace -- mod_verif_signal
-    signal_offensant -- mod_verif_signal
+    Utilisateur -- signal_user
+    Utilisateur -- signal_deplace
+    Utilisateur -- signal_offensant
 
 }
 
@@ -44,41 +43,31 @@ package "Message" #LightBlue {
 
     usecase "Envoyer message privé" as mess_envoyer
     usecase "Consulter messages reçus" as mess_consulter
-    usecase "Recevoir nouveau message" as mess_recevoir
     usecase "Accéder à la liste de conversations" as mess_liste
-    usecase "Signaler conversation" as signal_signaler_conv
-    usecase "Bloquer conversation" as signal_bloquer_conv
+    usecase "Bloquer une conversation" as mess_bloquer_conv
 
-    Utilisateur -- mess_consulter
+    Utilisateur -- mess_bloquer_conv
     Utilisateur -- mess_liste
-    Messagerie -- mess_recevoir
+    Utilisateur -- mess_envoyer
 
-    mess_liste -- mess_envoyer
-    mess_liste -- signal_bloquer_conv
-    mess_liste -- signal_signaler_conv
+    mess_liste --|> mess_consulter
+    mess_envoyer --|> mess_consulter
+
+    mess_consulter -- Messagerie
 
 }
 
 package "Notification" #LightBlue {
 
-    usecase "Recevoir notification " as notif_recevoir
-    usecase "Envoyer notification" as notif_envoie
     usecase "Consulter ses notifications" as notif_consult
     usecase "Configurer envoi par email" as notif_email
 
     Utilisateur -- notif_consult
-
-    Service_Notification -- notif_envoie
-
-    Utilisateur -- notif_consult
-
-    notif_consult -- notif_recevoir
-    notif_consult -- notif_email
+    Utilisateur -- notif_email
 
 }
 
-
-package "Infos Utilisateur" #LightBlue {
+package "Config Utilisateur" #LightBlue {
 
     usecase "Modifier age" as modif_Age
     usecase "Modifier genre" as modif_Genre
@@ -89,79 +78,56 @@ package "Infos Utilisateur" #LightBlue {
     usecase "Consulter ses photos" as modif_Consultation
     usecase "Ajouter des photos" as modif_Ajouter_Photos
     usecase "Supprimer des photos" as modif_Supprimer_Photos
+    usecase "Préferences" as modif_pref
 
+    usecase "Proximite géographique" as modif_proximite
+    usecase "Choisir age" as modif_age
+    usecase "Choisir genre" as modif_genre
+    usecase "Rechercher profil" as modif_critere_visibilite_autres
+    usecase "Configuration notifications" as modif_notif
 
-    Utilisateur -- modif_Genre
+    usecase "Se definir" as modif_definir
+
+    modif_proximite --|> modif_pref : <<include>>
+
+    modif_genre --|> modif_definir : <<include>>
+    modif_age --|> modif_definir : <<include>>
+    modif_genre --|> modif_pref : <<include>>
+    modif_age --|> modif_pref : <<include>>
+
     Utilisateur -- modif_Age
+    Utilisateur -- modif_Genre
     Utilisateur -- modif_Ville
     Utilisateur -- modif_Quartier
     Utilisateur -- modif_Texte_Presentation
     Utilisateur -- modif_Centre_Interets
-    Utilisateur -- modif_Consultation
+    Utilisateur -- modif_Supprimer_Photos
+    Utilisateur -- modif_Ajouter_Photos
+    Utilisateur -- modif_genre
+    Utilisateur -- modif_age
+    Utilisateur -- modif_proximite
+    Utilisateur -- modif_critere_visibilite_autres
+    Utilisateur -- modif_notif
 
-    modif_Consultation -- modif_Ajouter_Photos
-    modif_Consultation -- modif_Supprimer_Photos
-
-
-}
-
-package "Espace de configuration" #LightBlue {
-
-    usecase "Proximite géographique" as config_proximite
-    usecase "Choisir age" as config_age
-    usecase "Choisir genre" as config_genre
-    usecase "Se définir" as config_ses_critere_visibilite
-    usecase "Rechercher profil" as config_critere_visibilite_autres
-    usecase "Configuration notifications" as config_notif
-
-    Utilisateur -- config_notif
-
-    Utilisateur -- config_ses_critere_visibilite
-    Utilisateur -- config_critere_visibilite_autres
-
-    config_critere_visibilite_autres -- config_proximite
-    config_critere_visibilite_autres -- config_age
-    config_critere_visibilite_autres -- config_genre
-
-    config_ses_critere_visibilite -- config_proximite
-    config_ses_critere_visibilite -- config_age
-    config_ses_critere_visibilite -- config_genre
-
+    modif_Supprimer_Photos --|> modif_Consultation : <<include>>
+    modif_Ajouter_Photos --|> modif_Consultation : <<include>>
 
 }
 
 package "Recommandation" #LightBlue {
 
     usecase "Consulter profil recommandé " as reco_consultation
-    usecase "Utiliser interface de recherche " as reco_interface
     usecase "Recherche profil" as reco_recherche
     usecase "swipe droite" as reco_interet
     usecase "envoyer premier message" as reco_message
-    usecase "Créer un match" as reco_match
 
-
+    Utilisateur -- reco_message
     Utilisateur -- reco_consultation
-    Utilisateur -- reco_interface
-
-    reco_consultation -- config_critere_visibilite_autres
-    reco_consultation -- signal_user
-
-    reco_interface -- reco_recherche
-
-    reco_recherche -- config_age
-    reco_recherche -- config_genre
-    reco_recherche -- config_proximite
-    reco_recherche -- reco_interet
-
-    reco_interet ..> reco_match : <<include>>
-    reco_interet -- reco_message
-
-    reco_message -- mess_recevoir : <<implique>>
-
-    reco_match -- mess_recevoir : <<implique>>
+    Utilisateur -- reco_interet
+    Utilisateur -- reco_recherche
+    reco_interet -- reco_recherche
 
 }
-
 
 package "Authentifier" #LightBlue {
 
@@ -169,18 +135,17 @@ package "Authentifier" #LightBlue {
     usecase "Réinitialiser mot de passe" as auth_reset_mdp
 
     Utilisateur -- auth_inscription
-    auth_inscription -- mod_verif_docs : <<requis>>
     Utilisateur -- auth_reset_mdp
+
 
 }
 
-"Recommandation" ..|> Authentification : <<requis>>
-"Espace de configuration" ..|> Authentification : <<requis>>
-"Infos Utilisateur"  ..|> Authentification : <<requis>>
-"Notification" ..|> Authentification : <<requis>>
-"Message" ..|> Authentification : <<requis>>
-"Signalement" ..|> Authentification : <<requis>>
-"Moderation" ..|> Authentification : <<requis>>
 
+"Recommandation" ..|> auth : <<include>>
+"Config Utilisateur"  ..|> auth : <<include>>
+"Notification" ..|> auth : <<include>>
+"Message" ..|> auth : <<include>>
+"Signalement" ..|> auth : <<include>>
+"Moderation" ..|> auth : <<include>>
 
 @enduml

@@ -2,14 +2,12 @@
 left to right direction
 "Utilisateur" as User
 "Messagerie" as Messaging
-"Notification" as Notification
 "Authentification" as Auth
 "Moderateur" as Moderator
 "Tinder" as (AppliDeRencontire)
 
 User --> (AppliDeRencontire)
 Messaging --> (AppliDeRencontire)
-Notification --> (AppliDeRencontire)
 Auth --> (AppliDeRencontire)
 Moderator --> (AppliDeRencontire)
 @enduml
