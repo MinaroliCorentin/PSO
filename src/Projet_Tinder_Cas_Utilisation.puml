@@ -109,9 +109,9 @@ package "Config Utilisateur" #LightBlue {
     Utilisateur -- modif_critere_visibilite_autres
     Utilisateur -- modif_notif
 
-    modif_Supprimer_Photos --|> modif_Consultation : <<include>>
+    modif_Supprimer_Photos --> modif_Consultation : <<include>>
 
-    modif_Ajouter_Photos --|> modif_Consultation : <<include>>
+    modif_Ajouter_Photos --> modif_Consultation : <<include>>
 
 }
 
