@@ -3,7 +3,6 @@
 left to right direction
 title Cas d'utilisation - Tinder
 
-'Acteurs'
 actor Utilisateur
 actor Messagerie
 actor Moderateur
@@ -23,6 +22,7 @@ package "Moderation" #LightBlue {
     Moderateur -- mod_bloquer
     Moderateur -- mod_verif_docs
     Moderateur -- mod_verif_signal
+
     mod_bloquer -- mod_verif_signal
 
 }
@@ -50,8 +50,9 @@ package "Message" #LightBlue {
     Utilisateur -- mess_liste
     Utilisateur -- mess_envoyer
 
-    mess_liste --|> mess_consulter
-    mess_envoyer --|> mess_consulter
+    mess_liste --> mess_consulter
+
+    mess_envoyer --> mess_consulter
 
     mess_consulter -- Messagerie
 
@@ -78,22 +79,21 @@ package "Config Utilisateur" #LightBlue {
     usecase "Consulter ses photos" as modif_Consultation
     usecase "Ajouter des photos" as modif_Ajouter_Photos
     usecase "Supprimer des photos" as modif_Supprimer_Photos
-    usecase "Préferences" as modif_pref
-
+    usecase "Définir ses préferences" as modif_pref
     usecase "Proximite géographique" as modif_proximite
     usecase "Choisir age" as modif_age
     usecase "Choisir genre" as modif_genre
     usecase "Rechercher profil" as modif_critere_visibilite_autres
     usecase "Configuration notifications" as modif_notif
-
     usecase "Se definir" as modif_definir
 
-    modif_proximite --|> modif_pref : <<include>>
+    modif_proximite --> modif_pref : <<include>>
 
-    modif_genre --|> modif_definir : <<include>>
-    modif_age --|> modif_definir : <<include>>
-    modif_genre --|> modif_pref : <<include>>
-    modif_age --|> modif_pref : <<include>>
+    modif_genre --> modif_definir : <<include>>
+    modif_genre --> modif_pref : <<include>>
+
+    modif_age --> modif_definir : <<include>>
+    modif_age --> modif_pref : <<include>>
 
     Utilisateur -- modif_Age
     Utilisateur -- modif_Genre
@@ -110,6 +110,7 @@ package "Config Utilisateur" #LightBlue {
     Utilisateur -- modif_notif
 
     modif_Supprimer_Photos --|> modif_Consultation : <<include>>
+
     modif_Ajouter_Photos --|> modif_Consultation : <<include>>
 
 }
@@ -137,15 +138,13 @@ package "Authentifier" #LightBlue {
     Utilisateur -- auth_inscription
     Utilisateur -- auth_reset_mdp
 
-
 }
 
-
-"Recommandation" ..|> auth : <<include>>
-"Config Utilisateur"  ..|> auth : <<include>>
-"Notification" ..|> auth : <<include>>
-"Message" ..|> auth : <<include>>
-"Signalement" ..|> auth : <<include>>
-"Moderation" ..|> auth : <<include>>
+"Recommandation" ..> auth : <<include>>
+"Config Utilisateur"  ..> auth : <<include>>
+"Notification" ..> auth : <<include>>
+"Message" ..> auth : <<include>>
+"Signalement" ..> auth : <<include>>
+"Moderation" ..> auth : <<include>>
 
 @enduml
