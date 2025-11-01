@@ -15,7 +15,7 @@ package "Authentification" #LightBlue {
 
 package "Moderation" #LightBlue {
 
-    usecase "Bloquer un profil signalé" as mod_bloquer
+    usecase "Sanctionner un profil signalé" as mod_bloquer
     usecase "Vérifier documents utilisateur" as mod_verif_docs
     usecase "Verifier signalement" as mod_verif_signal
 
