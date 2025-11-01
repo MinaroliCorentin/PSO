@@ -12,21 +12,15 @@ package "Authentification" #LightBlue {
 
 }
 
-
 package "Message" #LightBlue {
 
     usecase "Envoyer message privé" as mess_envoyer
-    usecase "Consulter messages reçus" as mess_consulter
-    usecase "Accéder à la liste de conversations" as mess_liste
+    usecase "Consulter ses conversation " as mess_consulter
     usecase "Bloquer une conversation" as mess_bloquer_conv
 
     Utilisateur -- mess_bloquer_conv
-    Utilisateur -- mess_liste
+    Utilisateur -- mess_consulter
     Utilisateur -- mess_envoyer
-
-    mess_liste --> mess_consulter
-
-    mess_envoyer --> mess_consulter
 
     mess_consulter -- Messagerie
 
