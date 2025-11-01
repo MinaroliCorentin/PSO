@@ -1,84 +1,31 @@
 @startuml
 
 left to right direction
+title Cas d'utilisation - Tinder
 
-'Acteurs'
 actor Utilisateur
 
-package "Notification" #LightBlue {
+package "Authentification" #LightBlue {
 
-    usecase "Autoriser utilisation messagerie" as notif_messagerie
-
-}
-
-package "Espace de configuration" #LightBlue {
-
-   usecase "Proximite géographique" as config_proximite
-   usecase "Rechercher profil" as config_critere_visibilite_autres
-   usecase "Choisir age" as config_age
-   usecase "Choisir genre" as config_genre
-
-    config_critere_visibilite_autres -- config_proximite
-    config_critere_visibilite_autres -- config_age
-    config_critere_visibilite_autres -- config_genre
-
-}
-
-
-package "Messagerie" #LightBlue {
-
-    usecase "Recevoir message" as mess_recevoir
-
-}
-
-package "Signalement" #LightBlue {
-
-    usecase "Signaler un utilisateur" as signal_user
-
+    usecase "Authentification" as auth
 
 }
 
 package "Recommandation" #LightBlue {
 
     usecase "Consulter profil recommandé " as reco_consultation
-    usecase "Utiliser interface de recherche " as reco_interface
     usecase "Recherche profil" as reco_recherche
     usecase "swipe droite" as reco_interet
     usecase "envoyer premier message" as reco_message
-    usecase "Créer un match" as reco_match
 
-
+    Utilisateur -- reco_message
     Utilisateur -- reco_consultation
-    Utilisateur -- reco_interface
-
-    reco_consultation -- config_critere_visibilite_autres
-    reco_consultation -- signal_user
-
-    reco_interface -- reco_recherche
-
-    reco_recherche -- config_age
-    reco_recherche -- config_genre
-    reco_recherche -- config_proximite
-
-    reco_recherche -- reco_interet
-
-    reco_interet ..> reco_match : <<include>>
-    reco_interet -- reco_message
-
-    reco_message -- mess_recevoir
-    reco_message -- notif_messagerie
-
-
-    reco_match -- notif_messagerie
-    reco_match -- mess_recevoir
+    Utilisateur -- reco_interet
+    Utilisateur -- reco_recherche
+    reco_interet -- reco_recherche
 
 }
 
-    "Recommandation" ..> Authentification : <<requis>>
-    "Espace de configuration" ..> Authentification : <<requis>>
-    "Signalement" ..> Authentification : <<requis>>
-    "Notification" ..> Authentification : <<requis>>
-    "Messagerie" ..> Authentification : <<requis>>
-
+"Recommandation" ..> auth : <<include>>
 
 @enduml

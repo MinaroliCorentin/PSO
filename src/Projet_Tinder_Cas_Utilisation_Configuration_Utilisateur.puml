@@ -1,0 +1,65 @@
+@startuml
+
+left to right direction
+title Cas d'utilisation - Tinder
+
+actor Utilisateur
+
+package "Authentification" #LightBlue {
+
+    usecase "Authentification" as auth
+
+}
+
+
+package "Config Utilisateur" #LightBlue {
+
+    usecase "Modifier age" as modif_Age
+    usecase "Modifier genre" as modif_Genre
+    usecase "Modifier ville" as modif_Ville
+    usecase "Modifier Quartier" as modif_Quartier
+    usecase "Choisir texte de présentation" as modif_Texte_Presentation
+    usecase "Choisir centres d'intérêts" as modif_Centre_Interets
+    usecase "Consulter ses photos" as modif_Consultation
+    usecase "Ajouter des photos" as modif_Ajouter_Photos
+    usecase "Supprimer des photos" as modif_Supprimer_Photos
+    usecase "Définir ses préferences" as modif_pref
+    usecase "Proximite géographique" as modif_proximite
+    usecase "Choisir age" as modif_age
+    usecase "Choisir genre" as modif_genre
+    usecase "Rechercher profil" as modif_critere_visibilite_autres
+    usecase "Configuration notifications" as modif_notif
+    usecase "Se definir" as modif_definir
+
+    modif_proximite --> modif_pref : <<include>>
+
+    modif_genre --> modif_definir : <<include>>
+    modif_genre --> modif_pref : <<include>>
+
+    modif_age --> modif_definir : <<include>>
+    modif_age --> modif_pref : <<include>>
+
+    Utilisateur -- modif_Age
+    Utilisateur -- modif_Genre
+    Utilisateur -- modif_Ville
+    Utilisateur -- modif_Quartier
+    Utilisateur -- modif_Texte_Presentation
+    Utilisateur -- modif_Centre_Interets
+    Utilisateur -- modif_Supprimer_Photos
+    Utilisateur -- modif_Ajouter_Photos
+    Utilisateur -- modif_genre
+    Utilisateur -- modif_age
+    Utilisateur -- modif_proximite
+    Utilisateur -- modif_critere_visibilite_autres
+    Utilisateur -- modif_notif
+
+    modif_Supprimer_Photos --> modif_Consultation : <<include>>
+
+    modif_Ajouter_Photos --> modif_Consultation : <<include>>
+
+}
+
+"Config Utilisateur"  ..> auth : <<include>>
+
+
+@enduml

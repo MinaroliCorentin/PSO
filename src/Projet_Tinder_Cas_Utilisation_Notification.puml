@@ -1,57 +1,26 @@
-Projet_Tinder_Cas_Utilisation_Notification.puml@startuml
+@startuml
 
 left to right direction
 title Cas d'utilisation - Tinder
 
-'Acteurs'
 actor Utilisateur
-actor Service_Notification
-actor "Authentification"
+
+package "Authentification" #LightBlue {
+
+    usecase "Authentification" as auth
+
+}
 
 package "Notification" #LightBlue {
-
-    usecase "Recevoir notification " as notif_recevoir
-    usecase "Envoyer notification" as notif_envoie
-    usecase "Autoriser utilisation messagerie" as notif_messagerie
 
     usecase "Consulter ses notifications" as notif_consult
     usecase "Configurer envoi par email" as notif_email
 
-
-    notif_recevoir -- notif_messagerie
-
     Utilisateur -- notif_consult
-
-    notif_consult -- notif_recevoir
-    notif_consult -- notif_email
+    Utilisateur -- notif_email
 
 }
 
-
-package "Recommandation" #LightBlue {
-
-    usecase "swipe droite" as reco_interet
-    usecase "envoyer premier message" as reco_message
-    usecase "Créer un match" as reco_match
-
-    Utilisateur -Up- reco_interet
-
-
-
-
-
-    reco_interet ..> reco_match : <<include>>
-    reco_interet -- reco_message
-
-    reco_message -- notif_recevoir
-
-    reco_match -- notif_messagerie
-    reco_match -- notif_envoie
-
-}
-
-    "Recommandation" ..> Authentification : <<requis>>
-    "Notification" ..> Authentification : <<requis>>
-    "Service_Notification" -- "Notification"
+"Notification" ..> auth : <<include>>
 
 @enduml

@@ -1,16 +1,13 @@
 @startuml
 
 left to right direction
+title Cas d'utilisation - Tinder
 
-'Acteurs'
 actor Utilisateur
-actor Moderateur
-actor Authentification
 
+package "Authentification" #LightBlue {
 
-package "Moderation" #LightBlue {
-
-    usecase "Vérifier document d'identité" as auth_verif_identite
+    usecase "Authentification" as auth
 
 }
 
@@ -20,14 +17,7 @@ package "Authentifier" #LightBlue {
     usecase "Réinitialiser mot de passe" as auth_reset_mdp
 
     Utilisateur -- auth_inscription
-    auth_inscription -- auth_verif_identite : <<requis>>
-    auth_verif_identite ..|> Moderateur : <<include>>
     Utilisateur -- auth_reset_mdp
 
 }
-
-Authentifier -- "Authentification"
-Moderation -- "Authentification"
-
-
 @enduml

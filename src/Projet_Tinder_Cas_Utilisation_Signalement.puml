@@ -1,18 +1,13 @@
-Projet_Tinder_Cas_Utilisation_Notification.puml@startuml
+@startuml
 
 left to right direction
 title Cas d'utilisation - Tinder
 
-'Acteurs'
-actor Moderateur
-actor "Authentification"
 actor Utilisateur
 
-package "Moderation" #LightBlue {
+package "Authentification" #LightBlue {
 
-    usecase "Verifier signalement" as mod_verif_signal
-
-    Moderateur -- mod_verif_signal
+    usecase "Authentification" as auth
 
 }
 
@@ -21,21 +16,13 @@ package "Signalement" #LightBlue {
     usecase "Signaler un utilisateur" as signal_user
     usecase "Signaler contenu déplacé" as signal_deplace
     usecase "Signaler contenu offensant" as signal_offensant
-    usecase "Bloquer une conversation" as signal_bloquer_conv
-    usecase "Signaler une conversation" as signal_signaler_conv
-
-
-    signal_user -- signal_deplace
-    signal_user -- signal_offensant
-    signal_deplace -- mod_verif_signal
-    signal_offensant -- mod_verif_signal
-    Signalement ..> Authentification : <<requis>>
 
     Utilisateur -- signal_user
-    Utilisateur -- signal_signaler_conv
-    Utilisateur -- signal_bloquer_conv
-
+    Utilisateur -- signal_deplace
+    Utilisateur -- signal_offensant
 
 }
+
+"Signalement" ..> auth : <<include>>
 
 @enduml

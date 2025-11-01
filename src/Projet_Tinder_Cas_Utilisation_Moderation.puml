@@ -1,54 +1,31 @@
 @startuml
 
 left to right direction
+title Cas d'utilisation - Tinder
 
-'Acteurs'
-actor Utilisateur
 actor Moderateur
-actor Authentification
-
 
 
 package "Moderation" #LightBlue {
 
-    usecase "Traiter les signalements" as mod_traiter
     usecase "Bloquer un profil signalé" as mod_bloquer
     usecase "Vérifier documents utilisateur" as mod_verif_docs
     usecase "Verifier signalement" as mod_verif_signal
 
-    Moderateur -- mod_verif_signal
+    Moderateur -- mod_bloquer
     Moderateur -- mod_verif_docs
-    mod_verif_signal -- mod_traiter
-    mod_traiter -- mod_bloquer
+    Moderateur -- mod_verif_signal
 
-
-}
-
-package "Signalement" #LightBlue {
-
-    usecase "Signaler un utilisateur" as signal_user
-    usecase "Signaler contenu déplacé" as signal_deplace
-    usecase "Signaler contenu offensant" as signal_offensant
-
-    signal_user -- signal_deplace
-    signal_user -- signal_offensant
-    signal_deplace -- mod_verif_signal
-    signal_offensant -- mod_verif_signal
-    Utilisateur -- signal_user
+    mod_bloquer -- mod_verif_signal
 
 }
 
-package "Authentifier" #LightBlue {
+package "Authentification" #LightBlue {
 
-    usecase "S'inscrire" as auth_inscription
-
-    Utilisateur -- auth_inscription
-    auth_inscription -- mod_verif_docs : <<requis>>
+    usecase "Authentification" as auth
 
 }
 
-Authentifier ..|> Authentification : <<requis>>
-Signalement ..|> Authentification : <<requis>>
-Moderation ..|> Authentification : <<requis>>
+"Moderation" ..> auth : <<include>>
 
 @enduml

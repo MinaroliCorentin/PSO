@@ -1,30 +1,37 @@
 @startuml
-left to right direction
 
-'Acteurs'
+left to right direction
+title Cas d'utilisation - Tinder
+
 actor Utilisateur
-actor "Service de Messagerie" as Messagerie
-actor "Service d'Authentification" as Authentification
+actor Messagerie
+
+package "Authentification" #LightBlue {
+
+    usecase "Authentification" as auth
+
+}
+
 
 package "Message" #LightBlue {
 
     usecase "Envoyer message privé" as mess_envoyer
     usecase "Consulter messages reçus" as mess_consulter
-    usecase "Recevoir nouveau message" as mess_recevoir
-    usecase "Signaler conversation" as signal_signaler_conv
-    usecase "Bloquer conversation" as signal_bloquer_conv
+    usecase "Accéder à la liste de conversations" as mess_liste
+    usecase "Bloquer une conversation" as mess_bloquer_conv
 
-    Utilisateur -- mess_consulter
-    Messagerie -- mess_recevoir
-
+    Utilisateur -- mess_bloquer_conv
+    Utilisateur -- mess_liste
     Utilisateur -- mess_envoyer
-    Utilisateur -- signal_bloquer_conv
-    Utilisateur -- signal_signaler_conv
 
-    Message .left.> Authentification : <<requis>>
+    mess_liste --> mess_consulter
+
+    mess_envoyer --> mess_consulter
+
+    mess_consulter -- Messagerie
 
 }
 
-
+"Message" ..> auth : <<include>>
 
 @enduml
