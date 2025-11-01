@@ -70,8 +70,6 @@ package "Notification" #LightBlue {
 
 package "Config Utilisateur" #LightBlue {
 
-    usecase "Modifier age" as modif_Age
-    usecase "Modifier genre" as modif_Genre
     usecase "Modifier ville" as modif_Ville
     usecase "Modifier Quartier" as modif_Quartier
     usecase "Choisir texte de présentation" as modif_Texte_Presentation
@@ -95,8 +93,6 @@ package "Config Utilisateur" #LightBlue {
     modif_age --> modif_definir : <<include>>
     modif_age --> modif_pref : <<include>>
 
-    Utilisateur -- modif_Age
-    Utilisateur -- modif_Genre
     Utilisateur -- modif_Ville
     Utilisateur -- modif_Quartier
     Utilisateur -- modif_Texte_Presentation

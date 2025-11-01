@@ -5,11 +5,6 @@ title Cas d'utilisation - Tinder
 
 actor Utilisateur
 
-package "Authentification" #LightBlue {
-
-    usecase "Authentification" as auth
-
-}
 
 package "Authentifier" #LightBlue {
 
