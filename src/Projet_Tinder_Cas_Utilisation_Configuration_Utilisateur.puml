@@ -27,14 +27,11 @@ package "Config Utilisateur" #LightBlue {
     usecase "Choisir genre" as modif_genre
     usecase "Rechercher profil" as modif_critere_visibilite_autres
     usecase "Configuration notifications" as modif_notif
-    usecase "Se definir" as modif_definir
 
     modif_proximite --> modif_pref : <<include>>
 
-    modif_genre --> modif_definir : <<include>>
     modif_genre --> modif_pref : <<include>>
 
-    modif_age --> modif_definir : <<include>>
     modif_age --> modif_pref : <<include>>
 
 
