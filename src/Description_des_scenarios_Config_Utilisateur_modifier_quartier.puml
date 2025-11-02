@@ -1,0 +1,22 @@
+@startuml
+autonumber
+skinparam sequenceMessageAlign center
+skinparam actorStyle hollow
+
+actor "Utilisateur" as user
+participant "Authentification" as auth
+participant "Application" as app
+
+note over user, app
+L’utilisateur inscrit et authentifié
+Ce scenario est optionnel
+end note
+
+user -> app : Demande d’accès au profil
+app -> app : Charger infos actuelles
+app -> user : Affiche les infos actuelles
+user -> app : Sélectionne "modifier quartier"
+user -> app : Soumet nouveau quartier
+app -> app : Enregistre nouveau quartier
+app -> user : Quartier mis à jour
+@enduml

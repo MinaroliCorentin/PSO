@@ -1,0 +1,20 @@
+@startuml
+autonumber
+skinparam sequenceMessageAlign center
+skinparam actorStyle hollow
+
+actor "Utilisateur" as user
+participant "Application" as app
+
+note over user, app
+L’utilisateur inscrit et authentifié
+end note
+
+user -> app : Demande d’accès au profil
+app -> app : Charger infos actuelles
+app -> user : Affiche les infos actuelles
+user -> app : Sélectionne interface pour modifier ses préférences
+user -> app : Selectionne proximité geographique pour les profils recommandés
+app -> app : Mise à jour des données
+app -> user : Affiche les données mise à jour
+@enduml

@@ -52,10 +52,9 @@ package "Message" #LightBlue {
 package "Notification" #LightBlue {
 
     usecase "Consulter ses notifications" as notif_consult
-    usecase "Configurer envoi par email" as notif_email
 
     Utilisateur -- notif_consult
-    Utilisateur -- notif_email
+
 
 }
 
@@ -72,8 +71,11 @@ package "Config Utilisateur" #LightBlue {
     usecase "Proximite géographique" as modif_proximite
     usecase "Choisir age" as modif_age
     usecase "Choisir genre" as modif_genre
-    usecase "Rechercher profil" as modif_critere_visibilite_autres
+    usecase "Définir sa visiblité" as modif_critere_visibilite_autres
     usecase "Configuration notifications" as modif_notif
+    usecase "Configurer envoi par email" as modif_email
+    usecase "Choisir son age" as modif_son_age
+    usecase "Choisir son genre" as modif_son_genre
 
     modif_proximite --> modif_pref : <<include>>
 
@@ -81,6 +83,9 @@ package "Config Utilisateur" #LightBlue {
 
     modif_age --> modif_pref : <<include>>
 
+    Utilisateur -- modif_email
+
+    modif_email --> modif_notif : <<include>>
     Utilisateur -- modif_Ville
     Utilisateur -- modif_Quartier
     Utilisateur -- modif_Texte_Presentation
@@ -92,6 +97,9 @@ package "Config Utilisateur" #LightBlue {
     Utilisateur -- modif_proximite
     Utilisateur -- modif_critere_visibilite_autres
     Utilisateur -- modif_notif
+    Utilisateur -- modif_son_age
+    Utilisateur -- modif_son_genre
+
 
     modif_Supprimer_Photos --> modif_Consultation : <<include>>
 
@@ -111,6 +119,7 @@ package "Recommandation" #LightBlue {
     Utilisateur -- reco_interet
     Utilisateur -- reco_recherche
     reco_interet -- reco_recherche
+    reco_interet -- reco_consultation
 
 }
 

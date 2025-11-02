@@ -23,6 +23,7 @@ package "Recommandation" #LightBlue {
     Utilisateur -- reco_interet
     Utilisateur -- reco_recherche
     reco_interet -- reco_recherche
+    reco_interet -- reco_consultation
 
 }
 

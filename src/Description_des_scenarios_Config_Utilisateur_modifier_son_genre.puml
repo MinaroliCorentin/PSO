@@ -1,0 +1,21 @@
+@startuml
+autonumber
+skinparam sequenceMessageAlign center
+skinparam actorStyle hollow
+
+actor "Utilisateur" as user
+participant "Authentification" as auth
+participant "Application" as app
+
+note over user, app
+L’utilisateur inscrit et authentifié
+end note
+
+user -> app : Demande d’accès au profil
+app -> app : Charger infos actuelles
+app -> user : Affiche les infos actuelles
+user -> app : Sélectionne "Modifier genre"
+user -> app : Soumet nouveau genre
+app -> app : Enregistre nouveau genre utilisateur
+app -> user : genre mis à jour
+@enduml

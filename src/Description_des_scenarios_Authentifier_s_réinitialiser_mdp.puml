@@ -7,17 +7,14 @@ actor "Utilisateur" as user
 participant "Application" as app
 participant "AdresseMail" as adresseMail
 
-== Prérequis ==
+note over user, adresseMail
+L’utilisateur est déjà inscrit
+end note
 
-user -> app : L'utiisateur n'est pas déjà inscrit
-
-== Processus ==
-
-user -> app : l'utilisateur se connecte au site
 user -> app : l'utilisateur utilise un bouton pour réinitialiser son mot de passe
-app -> user : verifie si un utilisateur est associé au login
-app -> adresseMail : Envoie sur l'adresse mail de l'utilisateur un lien pour réinitialiser son mot de passe
+app -> app : verifie si un utilisateur est associé au login
 alt La demande de réinitialiser n'est pas associé à un login valide
     app -> user : Affiche une erreur
 end
+app -> adresseMail : Envoie sur l'adresse mail de l'utilisateur un lien pour réinitialiser son mot de passe
 @enduml

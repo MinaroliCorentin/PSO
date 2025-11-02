@@ -1,0 +1,21 @@
+@startuml
+autonumber
+skinparam sequenceMessageAlign center
+skinparam actorStyle hollow
+
+actor "Utilisateur" as user
+participant "Authentification" as auth
+participant "Application" as app
+
+note over user, app
+L’utilisateur inscrit et authentifié
+end note
+
+user -> app : Demande d’accès au profil
+app -> app : Charger infos actuelles
+app -> user : Affiche les infos actuelles
+user -> app : Sélectionne "Modifier texte de présentation"
+user -> app : Soumet nouvelle ville
+app -> app : Enregistre nouvelle ville utilisateur
+app -> user : Ville  mis à jour
+@enduml

@@ -1,0 +1,27 @@
+@startuml
+autonumber
+skinparam sequenceMessageAlign center
+skinparam actorStyle hollow
+
+actor "Utilisateur" as user
+participant "Application" as app
+
+note over user, app
+L’utilisateur inscrit et authentifié
+end note
+
+user -> app : Demande d’accès au profil
+app -> app : Charger infos actuelles
+app -> user : Affiche les infos actuelles
+user -> app : Sélectionne interface pour consulter ses photos
+app -> app : Charges les photos connu de l'application
+
+alt l'utilisateur n'a pas renseigné de photo
+app -> user : messages d'erreur car aucune photo n'a été renseignée
+end
+
+app -> user : Affiche les photos connu de l'application
+
+
+
+@enduml

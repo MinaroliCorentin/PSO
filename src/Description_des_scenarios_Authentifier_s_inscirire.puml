@@ -4,22 +4,20 @@ skinparam sequenceMessageAlign center
 skinparam actorStyle hollow
 
 actor "Utilisateur" as user
-actor "Moderateur" as mod
+actor "Modérateur" as mod
 participant "Application" as app
 
-== Prérequis ==
+note over user, app
+L’utilisateur n'est pas encore inscrit
+end note
 
-user -> app : L'utiisateur n'est pas déjà inscrit
-
-== Processus ==
-
-user -> app : l'utilisateur se connecte au site
-user -> app : l'utilisateur utilise un bouton pour s'inscrire
-user -> app : l'utilisateur remplit un formulaire
-app -> mod : Le formulaire est transmit au modérateur
-alt L'utiisateur n'a pas transmit toutes ses informations
-    user -> app : envoie une demande incomplete
-    app -> user : La demande est automatiquement rejetté car incomplete
+user -> app : Remplit formulaire d'inscription
+app -> app : Vérifie si toutes les informations sont complètes
+alt Formulaire incomplet
+    app -> user : Rejette et affiche message d'erreur
 end
-mod -> user : Le modérateur répond favorablement ou non à la demande
+    app -> mod : Transmet formulaire et document(s) d'identité(s) pour validation
+    mod -> app : Accepte ou refuse l'inscription
+    app -> user : Informe de la décision du modérateur
+
 @enduml

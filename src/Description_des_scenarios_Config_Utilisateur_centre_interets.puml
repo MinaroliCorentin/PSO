@@ -1,0 +1,20 @@
+@startuml
+autonumber
+skinparam sequenceMessageAlign center
+skinparam actorStyle hollow
+
+actor "Utilisateur" as user
+participant "Application" as app
+
+note over user, app
+L’utilisateur inscrit et authentifié
+end note
+
+user -> app : Demande d’accès au profil
+app -> app : Charger infos actuelles
+app -> user : Affiche les infos actuelles
+user -> app : Sélectionne interface pour modifier centres d'intérêts
+user -> app : Transmet modification centre d'intérêts
+app -> app : Met à jour des centres d'intérêts de l'utilisateur
+app -> user : Affiche centres d'intérêts mis à jour
+@enduml

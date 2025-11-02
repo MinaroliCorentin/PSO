@@ -1,0 +1,30 @@
+@startuml
+autonumber
+skinparam sequenceMessageAlign center
+skinparam actorStyle hollow
+
+actor "Utilisateur" as user
+participant "Application" as app
+
+note over user, app
+L’utilisateur inscrit et authentifié
+end note
+
+user -> app : Demande d’accès au profil
+app -> app : Charger infos actuelles
+app -> user : Affiche les infos actuelles
+user -> app : Sélectionne interface pour configurer notifications
+user -> app : Selectionne envoie de mail en plus des notifications
+
+alt L'utilisateur n'a pas renseigné d'email
+app -> user : Demande une adresse email
+user -> app : Renseigne une adresse mail
+
+alt L'utilisateur n'a pas renseigné d'adresse mail
+app -> user : Affiche un message d'erreur
+end
+end
+
+app -> app : Met à jour ses paramètres
+app -> user : Affiche paramètres mis à jour
+@enduml
