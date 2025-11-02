@@ -1,0 +1,25 @@
+@startuml
+autonumber
+skinparam sequenceMessageAlign center
+skinparam actorStyle hollow
+
+actor "Utilisateur" as user
+actor "Moderateur" as mod
+participant "Application" as app
+
+== Prérequis ==
+
+user -> app : L'utiisateur n'est pas déjà inscrit
+
+== Processus ==
+
+user -> app : l'utilisateur se connecte au site
+user -> app : l'utilisateur utilise un bouton pour s'inscrire
+user -> app : l'utilisateur remplit un formulaire
+app -> mod : Le formulaire est transmit au modérateur
+alt L'utiisateur n'a pas transmit toutes ses informations
+    user -> app : envoie une demande incomplete
+    app -> user : La demande est automatiquement rejetté car incomplete
+end
+mod -> user : Le modérateur répond favorablement ou non à la demande
+@enduml
