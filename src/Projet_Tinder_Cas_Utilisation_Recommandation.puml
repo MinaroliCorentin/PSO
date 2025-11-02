@@ -15,7 +15,7 @@ package "Recommandation" #LightBlue {
 
     usecase "Consulter profil recommandé " as reco_consultation
     usecase "Recherche profil" as reco_recherche
-    usecase "swipe droite" as reco_interet
+    usecase "Montrer de l’intérêt" as reco_interet
     usecase "envoyer premier message" as reco_message
 
     Utilisateur -- reco_message
