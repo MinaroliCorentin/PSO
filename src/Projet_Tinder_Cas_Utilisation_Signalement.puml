@@ -14,12 +14,8 @@ package "Authentification" #LightBlue {
 package "Signalement" #LightBlue {
 
     usecase "Signaler un utilisateur" as signal_user
-    usecase "Signaler contenu déplacé" as signal_deplace
-    usecase "Signaler contenu offensant" as signal_offensant
 
     Utilisateur -- signal_user
-    Utilisateur -- signal_deplace
-    Utilisateur -- signal_offensant
 
 }
 
