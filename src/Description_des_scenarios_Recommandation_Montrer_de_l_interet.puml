@@ -1,0 +1,31 @@
+@startuml
+autonumber
+skinparam sequenceMessageAlign center
+skinparam actorStyle hollow
+
+actor "Utilisateur" as user
+participant "Application" as app
+actor "Utilisateur2" as user2
+
+note over user, app
+L'utilisateur est inscrit et authentifié
+end note
+
+user -> app : Demande de découverte de nouveaux profils
+app -> user : Affiche profils recommandés
+
+user -> app : Montre son intérêt (bouton "♥")
+app -> app : Enregistre l'intérêt de user envers user2
+
+
+alt user2 a déjà montré de l'intérêt
+    app -> app : Crée un match
+    app -> user : Possibilité d’envoyer messages et envoie d'une notification
+    app -> user2 : Possibilité d’envoyer messages et envoie d'une notification
+else user2 n'a pas montré d'intérêt
+    app -> user : Confirme que l'intérêt a été enregistré
+end
+
+app -> user : invite l'utilisateur à envoie un unique message
+
+@enduml

@@ -10,6 +10,7 @@ note over user, app
 L’utilisateur inscrit et authentifié
 end note
 
-
+user -> app : L'utilisateur appuie sur un bouton pour voir toutes les notifications qu'il a reçu
+app -> user : Affiche les notifications
 
 @enduml

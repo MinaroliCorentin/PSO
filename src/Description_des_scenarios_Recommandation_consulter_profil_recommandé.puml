@@ -1,0 +1,22 @@
+@startuml
+autonumber
+skinparam sequenceMessageAlign center
+skinparam actorStyle hollow
+
+actor "Utilisateur" as user
+participant "Application" as app
+
+note over user, app
+L’utilisateur inscrit et authentifié
+end note
+
+
+user -> app : Demande profils recommandés
+app -> app : Récupère critères de recommandation associé à l'utilisateur
+app -> user : Affiche les profils recommandés
+
+note over user, app
+L'utilisateur peut ensuite consulter chaque profil ou montrer son intérêt
+end note
+
+@enduml

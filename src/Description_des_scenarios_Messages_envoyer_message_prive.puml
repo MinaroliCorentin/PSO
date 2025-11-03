@@ -1,0 +1,34 @@
+@startuml
+autonumber
+skinparam sequenceMessageAlign center
+skinparam actorStyle hollow
+
+actor "Utilisateur" as user
+participant "Application" as app
+participant "Messagerie" as messagerie
+participant "Utilisateur2" as user2
+
+note over user, app
+L’utilisateur inscrit et authentifié
+end note
+
+user -> app : Appuie sur le bouton "Mes Conversations dans l'interface"
+app -> user : Affiche la liste des conversations de l'utilisateur
+user -> app : Choisit un de ses conversations
+app -> user : Affiche la conversation
+
+alt  l'utilisateur2 à bloqué l'utilisateur
+    app -> user :Envoie impossible car Utilisateur2 à bloqué Utilisateur
+end
+
+alt Utilisateur à bloqué Utilisateur2
+    app -> user :Envoie impossible car Utilisateur2 à bloqué Utilisateur
+end
+
+user -> app : Envoie un message grâce à la zone de texte
+app -> messagerie : Transmet le message à envoyer
+messagerie -> user2 : Transmet le message de l'utilisateur
+messagerie -> app : Rend compte de l'envoi du message
+app -> user : Met à jour l'affichage
+
+@enduml

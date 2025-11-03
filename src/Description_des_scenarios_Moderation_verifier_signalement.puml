@@ -1,0 +1,24 @@
+@startuml
+autonumber
+skinparam sequenceMessageAlign center
+skinparam actorStyle hollow
+
+actor "Modérateur" as mod
+participant "Application" as app
+actor "Utilisateur signalé" as user
+actor "Utilisateur ayant signalé" as reporter
+
+note over mod, app
+Le modérateur est authentifié avec les privilèges nécessaires.
+end note
+
+mod -> app : Demande la liste des conversations signalées
+app -> mod : Transmet la liste des conversations signalées
+mod -> app : Sélectionne une conversation signalée
+app -> app : Récupère les informations liées au signalement
+
+note over mod, app
+    Le Modérateur peut alors sanctionner ou non un profil
+end note
+
+@enduml

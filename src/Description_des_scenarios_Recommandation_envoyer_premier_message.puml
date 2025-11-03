@@ -1,0 +1,34 @@
+@startuml
+autonumber
+skinparam sequenceMessageAlign center
+skinparam actorStyle hollow
+
+actor "Utilisateur" as user
+participant "Application" as app
+participant "Messagerie" as messagerie
+participant "UtilisateurAutre" as user2
+
+note over user, app
+L’utilisateur inscrit et authentifié
+end note
+
+user -> app : Recherche un profil
+app -> user : Affiche les profils qui correspondante à la recherche
+user -> app : Selectionne un profil
+app -> user : Affiche les informations du profil avec photos, texte de présentation, age etc.
+user -> app : Appuie sur un bouton pour envoyer le premier messages
+
+alt l'utilisateur a déjà envoyé un message à ce profil
+
+app -> user : Affiche un message d'erreur car un seul message est permit sans match
+
+end
+
+app -> user : Ouvre une fenêtre de discution
+user -> app : Ecrit et transmet un unique message
+app -> messagerie : Donne le message à faire parvenir
+messagerie -> user2 : Transmet le message
+messagerie -> app : Confirme envoie de message
+app -> user : Met à jour l'affichage
+
+@enduml

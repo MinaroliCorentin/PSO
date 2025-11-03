@@ -1,0 +1,24 @@
+@startuml
+autonumber
+skinparam sequenceMessageAlign center
+skinparam actorStyle hollow
+
+actor "Modérateur" as mod
+participant "Application" as app
+actor "Utilisateur" as user
+
+note over user, app
+L’utilisateur n'est pas encore inscrit et a transmis ses documents d'identité.
+end note
+
+app -> mod : Transmet les documents d'identité à vérifier
+
+alt Documents refusés
+    mod -> app : Refuse les documents + motif
+    app -> user : Informe refus d'inscription + motif
+else Documents validés
+    mod -> app : Valide documents d'identité
+    app -> user : Confirme création du compte
+end
+
+@enduml

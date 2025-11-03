@@ -1,0 +1,21 @@
+@startuml
+autonumber
+skinparam sequenceMessageAlign center
+skinparam actorStyle hollow
+
+actor "Utilisateur" as user
+participant "Application" as app
+
+note over user, app
+L’utilisateur inscrit et authentifié
+end note
+
+user -> app : Appuie sur le bouton "Mes Conversations dans l'interface"
+app -> user : Affiche la liste des conversations de l'utilisateur
+user -> app : Selectionné une conversation
+app -> user : Affichage de la conversation
+user -> app : Appuie sur un bouton "Bloquer" utilisateur pour bloquer l'utilisateur
+app -> app : Bloquer la conversation pour empecher l'envoi de messages
+
+
+@enduml

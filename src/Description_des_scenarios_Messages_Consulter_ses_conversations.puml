@@ -1,0 +1,20 @@
+@startuml
+autonumber
+skinparam sequenceMessageAlign center
+skinparam actorStyle hollow
+
+actor "Utilisateur" as user
+participant "Application" as app
+
+note over user, app
+L’utilisateur inscrit et authentifié
+end note
+
+user -> app : Appuie sur le bouton "Mes Conversations dans l'interface"
+app -> user : Affiche la liste des conversations de l'utilisateur
+
+note over user, app
+L'utilisateur peut alors lire et envoyer des messages en selectionannt une des conversations
+end note
+
+@enduml
