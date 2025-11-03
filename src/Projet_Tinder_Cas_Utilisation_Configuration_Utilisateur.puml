@@ -1,3 +1,5 @@
+@startuml
+left to right direction
 package "Config Utilisateur" #LightBlue {
 
     usecase "Modifier ville" as modif_Ville
@@ -41,7 +43,7 @@ package "Config Utilisateur" #LightBlue {
     Utilisateur -- modif_son_genre
 
     modif_Supprimer_Photos --> modif_Consultation : <<include>>
-
     modif_Ajouter_Photos --> modif_Consultation : <<include>>
 
 }
+@enduml
