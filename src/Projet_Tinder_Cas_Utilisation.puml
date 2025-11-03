@@ -55,7 +55,6 @@ package "Notification" #LightBlue {
 
     Utilisateur -- notif_consult
 
-
 }
 
 package "Config Utilisateur" #LightBlue {
@@ -69,8 +68,8 @@ package "Config Utilisateur" #LightBlue {
     usecase "Supprimer des photos" as modif_Supprimer_Photos
     usecase "Définir ses préferences" as modif_pref
     usecase "Proximite géographique" as modif_proximite
-    usecase "Choisir age" as modif_age
-    usecase "Choisir genre" as modif_genre
+    usecase "Modifier préférence age" as modif_age
+    usecase "Modifier préférence genre " as modif_genre
     usecase "Définir sa visiblité" as modif_critere_visibilite_autres
     usecase "Configuration notifications" as modif_notif
     usecase "Configurer envoi par email" as modif_email
@@ -99,7 +98,6 @@ package "Config Utilisateur" #LightBlue {
     Utilisateur -- modif_notif
     Utilisateur -- modif_son_age
     Utilisateur -- modif_son_genre
-
 
     modif_Supprimer_Photos --> modif_Consultation : <<include>>
 

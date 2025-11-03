@@ -1,17 +1,3 @@
-@startuml
-
-left to right direction
-title Cas d'utilisation - Tinder
-
-actor Utilisateur
-
-package "Authentification" #LightBlue {
-
-    usecase "Authentification" as auth
-
-}
-
-
 package "Config Utilisateur" #LightBlue {
 
     usecase "Modifier ville" as modif_Ville
@@ -23,10 +9,13 @@ package "Config Utilisateur" #LightBlue {
     usecase "Supprimer des photos" as modif_Supprimer_Photos
     usecase "Définir ses préferences" as modif_pref
     usecase "Proximite géographique" as modif_proximite
-    usecase "Choisir age" as modif_age
-    usecase "Choisir genre" as modif_genre
-    usecase "Rechercher profil" as modif_critere_visibilite_autres
+    usecase "Modifier préférence age" as modif_age
+    usecase "Modifier préférence genre " as modif_genre
+    usecase "Définir sa visiblité" as modif_critere_visibilite_autres
     usecase "Configuration notifications" as modif_notif
+    usecase "Configurer envoi par email" as modif_email
+    usecase "Choisir son age" as modif_son_age
+    usecase "Choisir son genre" as modif_son_genre
 
     modif_proximite --> modif_pref : <<include>>
 
@@ -34,7 +23,9 @@ package "Config Utilisateur" #LightBlue {
 
     modif_age --> modif_pref : <<include>>
 
+    Utilisateur -- modif_email
 
+    modif_email --> modif_notif : <<include>>
     Utilisateur -- modif_Ville
     Utilisateur -- modif_Quartier
     Utilisateur -- modif_Texte_Presentation
@@ -46,14 +37,11 @@ package "Config Utilisateur" #LightBlue {
     Utilisateur -- modif_proximite
     Utilisateur -- modif_critere_visibilite_autres
     Utilisateur -- modif_notif
+    Utilisateur -- modif_son_age
+    Utilisateur -- modif_son_genre
 
     modif_Supprimer_Photos --> modif_Consultation : <<include>>
 
     modif_Ajouter_Photos --> modif_Consultation : <<include>>
 
 }
-
-"Config Utilisateur"  ..> auth : <<include>>
-
-
-@enduml

@@ -14,7 +14,7 @@ end note
 user -> app : Demande d’accès au profil
 app -> app : Charger infos actuelles
 app -> user : Affiche les infos actuelles
-user -> app : Sélectionne "Modifier texte de présentation"
+user -> app : Sélectionne "Modifier ville"
 user -> app : Soumet nouvelle ville
 app -> app : Enregistre nouvelle ville utilisateur
 app -> user : Ville  mis à jour
