@@ -5,8 +5,6 @@ skinparam actorStyle hollow
 
 actor "Modérateur" as mod
 participant "Application" as app
-actor "Utilisateur signalé" as user
-actor "Utilisateur ayant signalé" as reporter
 
 note over mod, app
 Le modérateur est authentifié avec les privilèges nécessaires.

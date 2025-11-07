@@ -7,7 +7,7 @@ actor "Modérateur" as mod
 participant "Application" as app
 actor "Utilisateur" as user
 
-note over user, app
+note over mod, user
 L’utilisateur n'est pas encore inscrit et a transmis ses documents d'identité.
 end note
 

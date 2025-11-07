@@ -4,7 +4,6 @@ skinparam sequenceMessageAlign center
 skinparam actorStyle hollow
 
 actor "Utilisateur" as user
-participant "Authentification" as auth
 participant "Application" as app
 
 note over user, app
