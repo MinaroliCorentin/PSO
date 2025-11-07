@@ -1,9 +1,9 @@
 @startuml
 left to right direction
-"Utilisateur" as User
-"Messagerie" as Messaging
-"Authentification" as Auth
-"Moderateur" as Moderator
+"Utilisateur( Acteur principal) " as User
+"Messagerie ( Acteur secondaire ) " as Messaging
+"Authentification ( Acteur secondaire ) " as Auth
+"Moderateur ( Acteur principal ) " as Moderator
 "Tinder" as (AppliDeRencontire)
 
 User --> (AppliDeRencontire)
