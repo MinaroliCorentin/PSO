@@ -1,5 +1,7 @@
 @startuml
 left to right direction
+title Cas d'utilisation - Tinder
+
 package "Config Utilisateur" #LightBlue {
 
     usecase "Modifier ville" as modif_Ville
@@ -20,14 +22,14 @@ package "Config Utilisateur" #LightBlue {
     usecase "Choisir son genre" as modif_son_genre
 
     modif_proximite --> modif_pref : <<include>>
-
     modif_genre --> modif_pref : <<include>>
-
     modif_age --> modif_pref : <<include>>
+    modif_email --> modif_notif : <<include>>
+    modif_Supprimer_Photos --> modif_Consultation : <<include>>
+    modif_Ajouter_Photos --> modif_Consultation : <<include>>
+    modif_Quartier --> modif_Ville : <<Include>>
 
     Utilisateur -- modif_email
-
-    modif_email --> modif_notif : <<include>>
     Utilisateur -- modif_Ville
     Utilisateur -- modif_Quartier
     Utilisateur -- modif_Texte_Presentation
@@ -41,9 +43,6 @@ package "Config Utilisateur" #LightBlue {
     Utilisateur -- modif_notif
     Utilisateur -- modif_son_age
     Utilisateur -- modif_son_genre
-
-    modif_Supprimer_Photos --> modif_Consultation : <<include>>
-    modif_Ajouter_Photos --> modif_Consultation : <<include>>
 
 }
 @enduml

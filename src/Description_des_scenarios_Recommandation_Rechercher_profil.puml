@@ -7,17 +7,18 @@ actor "Utilisateur" as user
 participant "Application" as app
 
 note over user, app
-L’utilisateur inscrit et authentifié
+L’utilisateur inscrit et authentifié et les autres profils aussi.
 end note
 
-user -> app : L'utilisateur appuie sur un bouton pour decouvrir de nouveaux profils
-app -> user : L'application propose des profils en fonction des critères de selection
+alt : L'utilisateur utilise modifie mes critères de recherche
+user -> app : appuie sur le boutons "Filtre"
+app -> user : ouvre un menu déroulant avec la liste des filtres
+user -> app : effectue ou non des modifications
+app -> app : enregistre les modifications
+end
 
-note over user, app
-    La recherche de profil ce fait dans la partie qui propose automatiquement des profils, dans ce cas précis
-    l'utiliateur ne tient pas compte des profils qui lui sont proposés.
-end note
 
-user -> app : L'utilisateur peut alors utilisé une barre de recherche pour selectionné des profils en fonctions de divers critères
+user -> app : L'utilisateur lance une recherche de profils
+app -> user : L'application propose des profils en fonction des critères de recherhce
 
 @enduml

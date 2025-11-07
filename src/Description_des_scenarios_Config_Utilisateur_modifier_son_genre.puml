@@ -14,7 +14,7 @@ user -> app : Demande d’accès au profil
 app -> app : Charger infos actuelles
 app -> user : Affiche les infos actuelles
 user -> app : Sélectionne "Modifier genre"
-user -> app : Soumet nouveau genre
+user -> app : Soumet son genre parmi les choix proposées
 app -> app : Enregistre nouveau genre utilisateur
 app -> user : genre mis à jour
 @enduml

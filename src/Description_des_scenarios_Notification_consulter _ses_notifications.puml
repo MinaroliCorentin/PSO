@@ -8,6 +8,7 @@ participant "Application" as app
 
 note over user, app
 L’utilisateur inscrit et authentifié
+L'applicaton sait s'il doit enregistrer les notifications en fonction du cas "configurer notifications"
 end note
 
 user -> app : L'utilisateur appuie sur un bouton pour voir toutes les notifications qu'il a reçu

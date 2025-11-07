@@ -101,6 +101,8 @@ package "Config Utilisateur" #LightBlue {
 
     modif_Ajouter_Photos --> modif_Consultation : <<include>>
 
+    modif_Quartier --> modif_Ville : <<Include>>
+
 }
 
 package "Recommandation" #LightBlue {
