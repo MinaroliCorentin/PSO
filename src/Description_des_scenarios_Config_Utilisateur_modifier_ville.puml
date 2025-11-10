@@ -5,7 +5,6 @@ skinparam actorStyle hollow
 
 actor "Utilisateur" as user
 participant "Application" as app
-participant "Annuaire des villes " as annuaire
 
 note over user, app
 L’utilisateur inscrit et authentifié
@@ -16,14 +15,19 @@ app -> app : Charger infos actuelles
 app -> user : Affiche les infos actuelles
 user -> app : Sélectionne "Modifier ville"
 user -> app : Soumet code Postale
-app -> annuaire : Demande correspondance avec ville existante
-annuaire -> app : Confirme existant de la ville
+app -> app : Recherche correspondance avec ville existante
 
-alt : L'annuaire ne connait pas la ville
-annuaire -> app : L'annuaire ne parvient pas à trouver de ville avec le code Postale
-app -> user : Affiche message d'erreur
-end
-
+loop tant que la ville n'est pas reconnu
+alt  L'app connait la ville
 app -> app : Enregistre nouvelle ville utilisateur
 app -> user : Ville  mis à jour
+else  L'app ne connait pas la ville
+app -> app : L'app ne reconnait pas la ville avec le code Postale
+app -> user : Affiche message d'erreur
+app -> user : redemande la ville
+user -> app : refait la procedurep
+
+end
+end
+
 @enduml

@@ -14,7 +14,7 @@ end note
 user -> app : Demande de découverte de nouveaux profils
 app -> user : Affiche profils recommandés
 
-user -> app : Montre son intérêt (bouton "♥")
+user -> app : Montre son intérêt
 app -> app : Enregistre l'intérêt de user envers user2
 
 
@@ -24,8 +24,7 @@ alt user2 a déjà montré de l'intérêt
     app -> user2 : Possibilité d’envoyer messages et envoie d'une notification
 else user2 n'a pas montré d'intérêt
     app -> user : Confirme que l'intérêt a été enregistré
+    app -> user : invite l'utilisateur à envoie un unique message
 end
-
-app -> user : invite l'utilisateur à envoie un unique message
 
 @enduml

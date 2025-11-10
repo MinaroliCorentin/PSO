@@ -17,11 +17,13 @@ user -> app : Sélectionne interface pour consulter ses photos
 app -> app : Charges les photos connu de l'application
 user -> app : Selectionne photo à supprimer
 
-alt l'utilisateur n'a pas renseigné de photo
+loop Tant que l'utilisateur n'a pas renseigné de photo
+alt L'utilisateur a renseigné des photos
+app -> app : Mise à jour des photos de l'application
+app -> user : Affiche les photos de l'application
+else l'utilisateur n'a pas renseigné de photo
 app -> user : messages d'erreur car aucune photo n'a été renseignée
 end
-
-app -> app : Mise à jour des photos connu de l'application
-app -> user : Affiche les photos connu de l'application
+end
 
 @enduml

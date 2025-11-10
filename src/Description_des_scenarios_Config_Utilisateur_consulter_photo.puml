@@ -18,9 +18,9 @@ app -> app : Charges les photos connu de l'application
 
 alt l'utilisateur n'a pas renseigné de photo
 app -> user : messages d'erreur car aucune photo n'a été renseignée
-end
-
+else l'utilisateur a renseigné une photo / des photos
 app -> user : Affiche les photos connu de l'application
+end
 
 
 

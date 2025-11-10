@@ -4,20 +4,20 @@ skinparam sequenceMessageAlign center
 skinparam actorStyle hollow
 
 actor "Utilisateur" as user
-actor "Modérateur" as mod
 participant "Application" as app
+actor "Modérateur" as mod
 
-note over user, app
+note over user, mod
 L’utilisateur n'est pas encore inscrit
 end note
 
 user -> app : Remplit formulaire d'inscription
 app -> app : Vérifie si toutes les informations sont complètes
+loop tant que le formulaire n'est pas correct
 alt Formulaire incomplet
-    app -> user : Rejette et affiche message d'erreur
-end
+    app -> user : Rejette formulaire et affiche message d'erreur
+else Formulaire complet
     app -> mod : Transmet formulaire et document(s) d'identité(s) pour validation
-    mod -> app : Accepte ou refuse l'inscription
-    app -> user : Informe de la décision du modérateur
-
+end
+end
 @enduml

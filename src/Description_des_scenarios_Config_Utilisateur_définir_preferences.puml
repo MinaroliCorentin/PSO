@@ -10,10 +10,31 @@ note over user, app
 L’utilisateur inscrit et authentifié
 end note
 
-user -> app : Demande d’accès au profil
-app -> app : Charger infos actuelles
-app -> user : Affiche les infos actuelles
 user -> app : Sélectionne interface pour modifier ses préférences
+app -> app : Charge préférences
+app -> user : Affiche préférences
+
+loop Tant que l'utilisateur ne veut pas terminer de définir ses préférences
+alt L'utilisateur utilise modifie ses critères de recherche
+
+alt Changement proximité géographique
+user -> app : Change la proximité géographique
+app -> app : Enregistre changement
+app -> user : Mise à jour de l'interface
+else Changement age
+user -> app : Change l'âge
+app -> app : Enregistre changement
+app -> user : Mise à jour de l'interface
+else Changement genre
+user -> app : Change le genre
+app -> app : Enregistre changement
+app -> user : Mise à jour de l'interface
+end
+
+else : L'utilisateur ne modifie pas ses critères
+
+end
+end
 
 note over user, app
 L'utilisateur peut changer la proximité géographique,l'age et le genre des profils qui vont lui être recommandés

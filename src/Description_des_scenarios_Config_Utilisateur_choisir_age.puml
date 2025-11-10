@@ -16,14 +16,15 @@ app -> user : Affiche les infos actuelles
 user -> app : Sélectionne interface pour modifier ses préférences
 user -> app : Modifie l'age des utilisateurs pour les profils recommandés
 
+loop Tant que l'age n'est pas valide
 app -> app : Verifie la validité de l'age proposé
-alt L'utilisateur choisit un age invalide
-    app -> user : notifie que l'age n'est pas valide
+alt L'utilisateur choisit un age valide
+    app -> app : Met à jour ses données
+    app -> user : Affiche les données mise à jour
+else L'Utilisateur choisit un age invalide
+    app -> user : notifie que l'age n'est pas valide et demande nouvelle envoie
 end
-
-app -> app : Met à jour ses données
-app -> user : Affiche les données mise à jour
-
+end
 
 
 @enduml

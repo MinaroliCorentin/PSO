@@ -15,7 +15,7 @@ app -> app : Charger infos actuelles
 app -> user : Affiche les infos actuelles
 user -> app : Sélectionne interface pour consulter photos
 user -> app : Selectionne icones pour ajouter photos
-user -> app : Choisit photos à uploader
+user -> app : Choisit photos à télécharger
 user -> app : Transmet les photos
 app -> app : Met à jour sa galerie de photo
 app -> user : Affiche galerie photo mis à jour

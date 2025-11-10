@@ -15,7 +15,17 @@ user -> app : Demande d’accès au profil
 app -> app : Charger infos actuelles
 app -> user : Affiche les infos actuelles
 user -> app : Sélectionne "modifier quartier"
-user -> app : Soumet nouveau quartier
-app -> app : Enregistre nouveau quartier
-app -> user : Quartier mis à jour
+app -> app : Verifie si l'utilisateur a renseigné une ville
+
+loop Tant que l'utilisateur n'a pas renseigné de ville
+alt L'utilisateur a renseigné une ville
+    user -> app : Soumet nouveau quartier
+    app -> app : Enregistre nouveau quartier
+    app -> user : Quartier mis à jour
+else L'utilisateur n'a pas renseigné de ville
+    app -> user : Demande a l'utilisateur une ville
+
+end
+end
+
 @enduml

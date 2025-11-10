@@ -18,5 +18,4 @@ user -> app : Modifie le genre des utilisateurs pour les profils recommandés
 app -> app : Met à jour ses données
 app -> user : Affiche les données mise à jour
 
-
 @enduml

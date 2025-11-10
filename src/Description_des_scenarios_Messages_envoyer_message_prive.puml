@@ -5,8 +5,6 @@ skinparam actorStyle hollow
 
 actor "Utilisateur" as user
 participant "Application" as app
-participant "Messagerie" as messagerie
-participant "Utilisateur2" as user2
 
 note over user, app
 L’utilisateur inscrit et authentifié
@@ -17,18 +15,15 @@ app -> user : Affiche la liste des conversations de l'utilisateur
 user -> app : Choisit un de ses conversations
 app -> user : Affiche la conversation
 
-alt  l'utilisateur2 à bloqué l'utilisateur
-    app -> user :Envoie impossible car Utilisateur2 à bloqué Utilisateur
+loop
+alt envoie possible
+    user -> app : Envoie un message grâce à la zone de texte
+    app -> app : procède a l'envoi du message
+    app -> user : Met à jour l'affichage
+else envoie impossible car l'utilisateur a été bloqué ou a bloqué l'individu
+    app -> user : Message d'erreur "Envoie impossible"
+end
 end
 
-alt Utilisateur à bloqué Utilisateur2
-    app -> user :Envoie impossible car Utilisateur2 à bloqué Utilisateur
-end
-
-user -> app : Envoie un message grâce à la zone de texte
-app -> messagerie : Transmet le message à envoyer
-messagerie -> user2 : Transmet le message de l'utilisateur
-messagerie -> app : Rend compte de l'envoi du message
-app -> user : Met à jour l'affichage
 
 @enduml
