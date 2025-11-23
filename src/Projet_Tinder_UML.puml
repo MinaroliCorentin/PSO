@@ -2,92 +2,104 @@
 left to right direction
 
 enum Genre {
-
     Homme
     Femme
-
 }
 
 '--- Classes ---'
 class Utilisateur {
-    - id: int
-    - nom: String
-    - age: int
-    - genre: String
-    - ville: String
-    - quartier: String
-    - textePresentation: String
-    - centresInterets: List<String>
-    - photos: List<Images>
-    - statutCompte: Enum
-    - visibilite: Boolean
-    - age: int
-    - genrePrefere: String
-    - ProximiteGeograhpique: ???
-    + mettreAJourPreferences()
-    + mettreAJourVisibilite()
-    + signalerUtilisateur()
-    + envoyerMessage(destinataire: Utilisateur, contenu: String)
-    + mettreAJourInfos()
-    + modifierPreferences()
+    - id : int
+    - nom : String
+    - age : int
+    - genre : String
+    - ville : String
+    - quartier : String
+    - textePresentation : String
+    - centresInterets : List<String>
+    - photos : List<Images>
+    - premierMessageEnvoyer : List<boolean>
+    - estBloque : boolean
+    - notifMail : boolean
+    - agePrefere : int
+    - genrePrefere : String
+    - ProximiteGeograhpique: String
+    + Utilisateur(nom : String, age : int, genre : String, ville : String,
+    quartier : String, presentation : String, interets : List<String>)
+    + mettreAJourPreferences(age : int, genre : String, lieu : String) : void
+    + signalerUtilisateur(user : Utilisateur) : void
+    + signalerMessage(message : Message) : void
+    + envoyerMessage(destinataire : Utilisateur, contenu : String) : void
+    + mettreAJourInfos(presentation : String) : void
+    + setEstBloque() : void
+    + getNotifMail() : boolean
+    + setNotifMail() : void
+    + modifierMessage(message : Message, contenu : String) : void
+    + supprimerMessage(message : Message) : void
+    + supprimerNotification(notification : Notification) : void
+    + possibleMatch(binome : Utilisateur) : boolean
+    + getInteresser() : List<Utilisateur>
+    + peutEnvoyerMessage(destinataire : Utilisateur) : boolean
+    + ajoutInteresser(user : Utilisateur) : void
 }
 
 class Message {
-
-    - contenu: String
-    + envoyer()
-    + signaler()
+    - contenu : String
+    + getContenu() : String
+    + getExpediteur() : Utilisateur
+    + getDestinataire() : Utilisateur
+    + setContenu(contenu : String) : void
 }
 
 class Notification {
-
-    - mail : boolean
-    - contenu: String
-    + recevoir()
-
+    - contenu : String
+    + envoi() : void
+    + getContenu() : String
+    + getDestinataire() : Utilisateur
+    + setContenu(contenu : String) : void
 }
 
 class Match {
-
-    + creerMatch(Utilisateur user1, Utilisateur user2)
-    + envoyerPremierMessage()
-    + PermettreConversation()
+    + Match(user1 : Utilisateur, user2 : Utilisateur)
+    + getUser1() : Utilisateur
+    + getUser2() : Utilisateur
 }
 
 class Signalement {
-
-    - id: int ( Unique )
-    + Signaler ( Utilisateur user)
-    + traiter()
-    + bloquer()
+    - id : int
+    + Signalement(user : Utilisateur)
+    + Signalement(user : Utilisateur, message : Message)
 }
 
 class Moderateur {
-    - id: int
-    - nom: String
-    + verifierSignalement(signalement: Signalement)
-    + bloquerUtilisateur(utilisateur: Utilisateur)
-    + communiquerBlocage(utilisateur: Utilisateur)
+    - id : int
+    - nom : String
+    + Moderateur(nom : String)
+    + verifierSignalement(signalement : Signalement)
+    + bloquerUtilisateur(utilisateur : Utilisateur)
+    + communiquerBlocage(utilisateur : Utilisateur)
 }
 
 
 class Authentification {
-    - login: String
-    - motDePasse: String
-    + inscrire()
-    + connecter()
-    + reinitialiserMotDePasse()
+    - login : String
+    - motDePasse : String
+    + inscrire(log : String, mdp : String) : void
+    + connecter(log : String, mdp : String) : boolean
+    + reinitialiserMotDePasse(newMdp : String) : void
 }
 
 
 '--- Relations ---'
 Utilisateur "2" -- "0..*" Message : envoie/recoit
 Utilisateur "2" -- "0..*" Match : entre Utilisateur
-Utilisateur "1" -- "0..*" Signalement : signale/est Signale
-Moderateur "1..*" -- "0..*" Signalement : traite
+Utilisateur "1" -- "0..*" Signalement : signale/est Signaler par
+Utilisateur "1" <-- "0..*" Signalement : fautif
+Moderateur "1" -- "0..*" Signalement : traite
+Message "1" <-- "1" Signalement : messageOffensant
 Utilisateur "1" -- "0..*" Notification : reçoit
 Utilisateur "1" -- "1" Genre : identifieComme
-Authentification "0..1" -- "1" Moderateur : confirmerInscription
-Authentification "0..1" -- "0..1" Utilisateur : PermetLaConnection
+Authentification "0..*" -- "1" Moderateur : confirmerInscription
+Authentification "0..1" -- "1" Utilisateur : PermetLaConnection
+Utilisateur "0..*" -- "0..*" Utilisateur : interesser
 
 @enduml
