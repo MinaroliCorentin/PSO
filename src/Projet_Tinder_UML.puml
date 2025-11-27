@@ -8,54 +8,56 @@ enum Genre {
 
 '--- Classes ---'
 class Utilisateur {
-    - id : int
-    - nom : String
-    - age : int
-    - genre : String
-    - ville : String
-    - quartier : String
-    - textePresentation : String
-    - centresInterets : List<String>
-    - photos : List<Images>
-    - premierMessageEnvoyer : List<boolean>
-    - estBloque : boolean
-    - notifMail : boolean
-    - agePrefere : int
-    - genrePrefere : String
-    - ProximiteGeograhpique: String
-    + Utilisateur(nom : String, age : int, genre : String, ville : String,
-    quartier : String, presentation : String, interets : List<String>)
-    + mettreAJourPreferences(age : int, genre : String, lieu : String) : void
-    + signalerUtilisateur(user : Utilisateur) : void
-    + signalerMessage(message : Message) : void
-    + envoyerMessage(destinataire : Utilisateur, contenu : String) : void
-    + mettreAJourInfos(presentation : String) : void
-    + setEstBloque() : void
-    + getNotifMail() : boolean
-    + setNotifMail() : void
-    + modifierMessage(message : Message, contenu : String) : void
-    + supprimerMessage(message : Message) : void
-    + supprimerNotification(notification : Notification) : void
-    + possibleMatch(binome : Utilisateur) : boolean
-    + getInteresser() : List<Utilisateur>
-    + peutEnvoyerMessage(destinataire : Utilisateur) : boolean
-    + ajoutInteresser(user : Utilisateur) : void
+    - id : entier
+    - nom : chaîne
+    - age : entier
+    - genre : chaîne
+    - ville : chaîne
+    - quartier : chaîne
+    - textePresentation : chaîne
+    - centresInterets : liste chaîne
+    - photos : liste Images
+    - interets : HashMap Utilisateur,booléen
+    - estBloque : booléen
+    - notifMail : booléen
+    - agePrefere : entier
+    - genrePrefere : chaîne
+    - ProximiteGeograhpique: chaîne
+    - bloqueConversation : HashMap Utilisateur,Utilisateur
+    + Utilisateur(nom : chaîne, age : entier, genre : chaîne, ville : chaîne,
+    quartier : chaîne, presentation : chaîne, interets : liste chaîne)
+    + mettreAJourPreferences(age : entier, genre : chaîne, lieu : chaîne)
+    + signalerUtilisateur(user : Utilisateur)
+    + signalerMessage(message : Message)
+    + envoyerMessage(destinataire : Utilisateur, contenu : chaîne)
+    + mettreAJourInfos(presentation : chaîne)
+    + setEstBloque()
+    + getNotifMail() : booléen
+    + setNotifMail()
+    + modifierMessage(message : Message, contenu : chaîne)
+    + supprimerMessage(message : Message)
+    + supprimerNotification(notification : Notification)
+    + possibleMatch(binome : Utilisateur) : booléen
+    + getInteresser() : liste Utilisateur
+    + peutEnvoyerMessage(destinataire : Utilisateur) : booléen
+    + ajoutInteresser(user : Utilisateur)
+    + rechercher(chaîne... profils) : liste Utilisateur
 }
 
 class Message {
-    - contenu : String
-    + getContenu() : String
+    - contenu : chaîne
+    + getContenu() : chaîne
     + getExpediteur() : Utilisateur
     + getDestinataire() : Utilisateur
-    + setContenu(contenu : String) : void
+    + setContenu(contenu : chaîne)
 }
 
 class Notification {
-    - contenu : String
-    + envoi() : void
-    + getContenu() : String
+    - contenu : chaîne
+    + envoi()
+    + getContenu() : chaîne
     + getDestinataire() : Utilisateur
-    + setContenu(contenu : String) : void
+    + setContenu(contenu : chaîne)
 }
 
 class Match {
@@ -65,27 +67,36 @@ class Match {
 }
 
 class Signalement {
-    - id : int
+    - id : entier
     + Signalement(user : Utilisateur)
     + Signalement(user : Utilisateur, message : Message)
 }
 
 class Moderateur {
-    - id : int
-    - nom : String
-    + Moderateur(nom : String)
+    - id : entier
+    - nom : chaîne
+    + Moderateur(nom : chaîne)
     + verifierSignalement(signalement : Signalement)
     + bloquerUtilisateur(utilisateur : Utilisateur)
-    + communiquerBlocage(utilisateur : Utilisateur)
+    + communiquer(utilisateur : Utilisateur)
+    + verifierInscription(utilisateur : Utilisateur) : booléen
 }
 
 
 class Authentification {
-    - login : String
-    - motDePasse : String
-    + inscrire(log : String, mdp : String) : void
-    + connecter(log : String, mdp : String) : boolean
-    + reinitialiserMotDePasse(newMdp : String) : void
+    - pseudo : chaîne
+    - email : chaîne
+    - motDePasse : chaîne
+    + inscrire(email : chaîne, pseudo : chaîne, mdp : chaîne)
+    + connecter(psuedo : chaîne, email : chaîne, mdp : chaîne) : booléen
+    + reinitialiserMotDePasse(newMdp : chaîne)
+}
+
+enum TypeNotif{
+    Message
+    Interet
+    Match
+    Profil
 }
 
 
@@ -100,6 +111,8 @@ Utilisateur "1" -- "0..*" Notification : reçoit
 Utilisateur "1" -- "1" Genre : identifieComme
 Authentification "0..*" -- "1" Moderateur : confirmerInscription
 Authentification "0..1" -- "1" Utilisateur : PermetLaConnection
-Utilisateur "0..*" -- "0..*" Utilisateur : interesser
+Notification "1"--"1" TypeNotif : type
+'(Classe pour une liste de profils recommandés)'
+Utilisateur "0..*"--"0..*" Utilisateur : recommendations
 
 @enduml
