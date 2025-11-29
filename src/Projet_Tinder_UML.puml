@@ -8,88 +8,88 @@ enum Genre {
 
 '--- Classes ---'
 class Utilisateur {
-    - id : entier
-    - nom : chaîne
-    - age : entier
-    - genre : chaîne
-    - ville : chaîne
-    - quartier : chaîne
-    - textePresentation : chaîne
-    - centresInterets : liste chaîne
-    - photos : liste Images
-    - interets : HashMap Utilisateur,booléen
-    - estBloque : booléen
-    - notifMail : booléen
-    - agePrefere : entier
-    - genrePrefere : chaîne
-    - ProximiteGeograhpique: chaîne
-    - bloqueConversation : HashMap Utilisateur,Utilisateur
-    + Utilisateur(nom : chaîne, age : entier, genre : chaîne, ville : chaîne,
+    id : entier
+    nom : chaîne
+    age : entier
+    genre : chaîne
+    ville : chaîne
+    quartier : chaîne
+    textePresentation : chaîne
+    centresInterets : liste chaîne
+    photos : liste Images
+    interets : HashMap Utilisateur,booléen
+    estBloque : booléen
+    notifMail : booléen
+    agePrefere : entier
+    genrePrefere : chaîne
+    ProximiteGeograhpique: chaîne
+    bloqueConversation : HashMap Utilisateur,Utilisateur
+    Utilisateur(nom : chaîne, age : entier, genre : chaîne, ville : chaîne,
     quartier : chaîne, presentation : chaîne, interets : liste chaîne)
-    + mettreAJourPreferences(age : entier, genre : chaîne, lieu : chaîne)
-    + signalerUtilisateur(user : Utilisateur)
-    + signalerMessage(message : Message)
-    + envoyerMessage(destinataire : Utilisateur, contenu : chaîne)
-    + mettreAJourInfos(presentation : chaîne)
-    + setEstBloque()
-    + getNotifMail() : booléen
-    + setNotifMail()
-    + modifierMessage(message : Message, contenu : chaîne)
-    + supprimerMessage(message : Message)
-    + supprimerNotification(notification : Notification)
-    + possibleMatch(binome : Utilisateur) : booléen
-    + getInteresser() : liste Utilisateur
-    + peutEnvoyerMessage(destinataire : Utilisateur) : booléen
-    + ajoutInteresser(user : Utilisateur)
-    + rechercher(chaîne... profils) : liste Utilisateur
+    mettreAJourPreferences(age : entier, genre : chaîne, lieu : chaîne)
+    signalerUtilisateur(user : Utilisateur)
+    signalerMessage(message : Message)
+    envoyerMessage(destinataire : Utilisateur, contenu : chaîne)
+    mettreAJourInfos(presentation : chaîne)
+    setEstBloque()
+    getNotifMail() : booléen
+    setNotifMail()
+    modifierMessage(message : Message, contenu : chaîne)
+    supprimerMessage(message : Message)
+    supprimerNotification(notification : Notification)
+    possibleMatch(binome : Utilisateur) : booléen
+    getInteresser() : liste Utilisateur
+    peutEnvoyerMessage(destinataire : Utilisateur) : booléen
+    ajoutInteresser(user : Utilisateur)
+    rechercher(chaîne... profils) : liste Utilisateur
 }
 
 class Message {
-    - contenu : chaîne
-    + getContenu() : chaîne
-    + getExpediteur() : Utilisateur
-    + getDestinataire() : Utilisateur
-    + setContenu(contenu : chaîne)
+    contenu : chaîne
+    getContenu() : chaîne
+    getExpediteur() : Utilisateur
+    getDestinataire() : Utilisateur
+    setContenu(contenu : chaîne)
 }
 
 class Notification {
-    - contenu : chaîne
-    + envoi()
-    + getContenu() : chaîne
-    + getDestinataire() : Utilisateur
-    + setContenu(contenu : chaîne)
+    contenu : chaîne
+    envoi()
+    getContenu() : chaîne
+    getDestinataire() : Utilisateur
+    setContenu(contenu : chaîne)
 }
 
 class Match {
-    + Match(user1 : Utilisateur, user2 : Utilisateur)
-    + getUser1() : Utilisateur
-    + getUser2() : Utilisateur
+    Match(user1 : Utilisateur, user2 : Utilisateur)
+    getUser1() : Utilisateur
+    getUser2() : Utilisateur
 }
 
 class Signalement {
-    - id : entier
-    + Signalement(user : Utilisateur)
-    + Signalement(user : Utilisateur, message : Message)
+    id : entier
+    Signalement(user : Utilisateur)
+    Signalement(user : Utilisateur, message : Message)
 }
 
 class Moderateur {
-    - id : entier
-    - nom : chaîne
-    + Moderateur(nom : chaîne)
-    + verifierSignalement(signalement : Signalement)
-    + bloquerUtilisateur(utilisateur : Utilisateur)
-    + communiquer(utilisateur : Utilisateur)
-    + verifierInscription(utilisateur : Utilisateur) : booléen
+    id : entier
+    nom : chaîne
+    Moderateur(nom : chaîne)
+    verifierSignalement(signalement : Signalement)
+    bloquerUtilisateur(utilisateur : Utilisateur)
+    communiquer(utilisateur : Utilisateur)
+    verifierInscription(utilisateur : Utilisateur) : booléen
 }
 
 
 class Authentification {
-    - pseudo : chaîne
-    - email : chaîne
-    - motDePasse : chaîne
-    + inscrire(email : chaîne, pseudo : chaîne, mdp : chaîne)
-    + connecter(psuedo : chaîne, email : chaîne, mdp : chaîne) : booléen
-    + reinitialiserMotDePasse(newMdp : chaîne)
+    pseudo : chaîne
+    email : chaîne
+    motDePasse : chaîne
+    inscrire(email : chaîne, pseudo : chaîne, mdp : chaîne)
+    connecter(psuedo : chaîne, email : chaîne, mdp : chaîne) : booléen
+    reinitialiserMotDePasse(newMdp : chaîne)
 }
 
 enum TypeNotif{
