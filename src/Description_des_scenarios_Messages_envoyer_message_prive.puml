@@ -16,13 +16,13 @@ user -> app : Choisit un de ses conversations
 app -> user : Affiche la conversation
 
 loop
-alt envoie possible
-    user -> app : Envoie un message grâce à la zone de texte
-    app -> app : procède a l'envoi du message
-    app -> user : Met à jour l'affichage
-else envoie impossible car l'utilisateur a été bloqué ou a bloqué l'individu
-    app -> user : Message d'erreur "Envoie impossible"
-end
+    alt envoie possible
+        user -> app : Envoie un message grâce à la zone de texte
+        app -> app : procède a l'envoi du message
+        app -> user : Met à jour l'affichage
+    else envoie impossible car l'utilisateur a été bloqué ou a bloqué l'individu
+        app -> user : Message d'erreur "Envoie impossible"
+    end
 end
 
 

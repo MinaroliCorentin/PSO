@@ -14,7 +14,9 @@ user -> app : Demande d’accès au profil
 app -> app : Charger infos actuelles
 app -> user : Affiche les infos actuelles
 user -> app : Sélectionne "Modifier age"
+loop Tant que l'age minimum n'est pas respecté
 user -> app : Soumet nouveau age
 app -> app : Enregistre nouveau age utilisateur
 app -> user : age mis à jour
+end
 @enduml

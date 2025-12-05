@@ -10,7 +10,8 @@ note over user, app
 L’utilisateur inscrit et authentifié
 end note
 
-user -> app : Appuie sur le bouton "Mes Conversations dans l'interface"
+user -> app : Appuie sur le bouton "Mes Conversations" dans l'interface
+app -> app : Charge les conversations de l'utilisateur
 app -> user : Affiche la liste des conversations de l'utilisateur
 
 note over user, app

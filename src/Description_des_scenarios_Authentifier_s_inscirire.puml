@@ -5,19 +5,18 @@ skinparam actorStyle hollow
 
 actor "Utilisateur" as user
 participant "Application" as app
-actor "Modérateur" as mod
 
-note over user, mod
+note over user, app
 L’utilisateur n'est pas encore inscrit
 end note
 
 user -> app : Remplit formulaire d'inscription
 app -> app : Vérifie si toutes les informations sont complètes
 loop tant que le formulaire n'est pas correct
-alt Formulaire incomplet
-    app -> user : Rejette formulaire et affiche message d'erreur
-else Formulaire complet
-    app -> mod : Transmet formulaire et document(s) d'identité(s) pour validation
-end
+    alt Formulaire incomplet
+        app -> user : Rejette formulaire et affiche message d'erreur
+    else Formulaire complet
+        app -> app : Enregistrer le formulaire pour être traiter plus tard par un modérateur
+    end
 end
 @enduml
