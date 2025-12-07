@@ -1,0 +1,21 @@
+@startuml
+[*] --> ContenuSignale
+
+ContenuSignale --> EnAttenteDeTraitement : Signalement enregistré
+
+EnAttenteDeTraitement --> EnCoursDeVerification : Modérateur consulte le signalement
+
+EnCoursDeVerification --> ContenuAutorise : Signalement rejeté
+EnCoursDeVerification --> UtilisateurBanni : Signalement confirmé
+
+ContenuAutorise --> NotificationRefus : Pas d'infraction
+UtilisateurBanni --> NotificationBannissement : Infraction confirmée
+
+NotificationBannissement --> [*]
+NotificationRefus --> [*]
+
+legend top
+    Package Modération condensé
+endlegend
+
+@enduml

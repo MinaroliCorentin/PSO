@@ -1,0 +1,34 @@
+@startuml
+[*] --> Authentifie
+
+Authentifie --> ConsultationProfils : Accès à la section profil
+
+ConsultationProfils --> ProfilsRecommandes : Demande de profils recommandés
+ConsultationProfils --> RechercheProfils : Recherche manuelle
+
+ProfilsRecommandes --> ConsultationUnProfil
+RechercheProfils --> AffichageProfils : Résultats affichés
+
+AffichageProfils --> ConsultationUnProfil : Sélection d'un profil
+
+ConsultationUnProfil --> InteretExprime : L'utilisateur montre son intérêt
+ConsultationUnProfil --> ConsultationProfils : RetourSurLaPageDeGarde
+
+InteretExprime --> AttenteMatch : Enregistrement de l'intérêt
+
+AttenteMatch --> MatchCree : Intérêt mutuel
+AttenteMatch --> MessageUniquePossible : Pas encore de match
+
+MessageUniquePossible --> PremierMessage : Envoi d'un message unique
+PremierMessage --> AffichageConversation
+
+MatchCree --> AffichageConversation : Ouverture de la discussion
+
+AffichageConversation --> [*] : Fin de la navigation
+AffichageConversation --> ConsultationUnProfil : Fin de la navigation
+
+legend top
+    Package Recommandation condensé
+endlegend
+
+@enduml

@@ -30,9 +30,6 @@ user -> app : Change le genre
 app -> app : Enregistre changement
 app -> user : Mise à jour de l'interface
 end
-
-else : L'utilisateur ne modifie pas ses critères
-
 end
 end
 

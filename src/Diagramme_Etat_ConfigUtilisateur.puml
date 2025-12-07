@@ -1,0 +1,16 @@
+@startuml
+[*] --> AccesAuSite
+AccesAuSite --> Identification : Identification réussite
+Identification --> AccesAuSite : Echec Identification
+Identification --> AfficheInfos : L'utilisateur se rend sur sa page
+AfficheInfos --> NouvelleValeur : L'utilisateur motifie un champ
+NouvelleValeur --> Systeme : Verification de la validité ( ou non )
+Systeme --> AfficheInfos : Valide la modification
+Systeme --> Erreur : Refuse la modication
+Erreur --> AfficheInfos
+
+legend top
+    Package ConfigUtilisateur condensé
+endlegend
+
+@enduml

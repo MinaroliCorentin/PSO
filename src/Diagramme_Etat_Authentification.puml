@@ -1,0 +1,23 @@
+@startuml
+[*] --> PageDePresentation
+
+PageDePresentation --> Identification : L'utilisateur saisit ses identifiants
+PageDePresentation --> FormulaireInscription : L'utilisateur veut s'inscrire
+PageDePresentation --> FormulaireMDP : Mot de passe oublié
+
+Identification --> AccesAutorise : Identification réussie
+Identification --> PageDePresentation : Identification échouée
+
+FormulaireMDP --> [*] : Envoi du lien de réinitialisation
+
+FormulaireInscription --> InscriptionEnAttente : Formulaire envoyé
+InscriptionEnAttente --> InscriptionAutorisée : Modérateur valide
+InscriptionEnAttente --> InscriptionRefusee : Modérateur refuse
+InscriptionRefusee --> [*]
+InscriptionAutorisée --> AccesAutorise
+AccesAutorise --> [*]
+
+legend top
+    Package Authentification condensé
+endlegend
+@enduml

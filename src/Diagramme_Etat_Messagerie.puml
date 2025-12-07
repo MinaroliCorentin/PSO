@@ -1,0 +1,27 @@
+@startuml
+[*] --> Authentification
+
+Authentification --> ListeConversations : Connexion réussie
+Authentification --> Authentification : Connexion échouée
+
+ListeConversations --> ConversationActive : Sélection d'une conversation
+
+ConversationActive --> ConversationActive : Envoi d'un message
+ConversationActive --> ListeConversations : Changement de conversation
+
+ConversationActive --> ConversationBloquee : L'autre utilisateur me bloque
+ConversationActive --> ConversationVerrouillee : Je bloque l'utilisateur
+ConversationActive --> PageSignalement : Je signale l'utilisateur
+
+ConversationVerrouillee --> ListeConversations
+ConversationBloquee --> ListeConversations
+PageSignalement --> ListeConversations
+
+ConversationVerrouillee --> [*]
+ConversationBloquee --> [*]
+PageSignalement --> [*]
+
+legend top
+    Package Messagerie condensé
+endlegend
+@enduml
