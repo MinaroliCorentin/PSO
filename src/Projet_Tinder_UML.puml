@@ -10,36 +10,55 @@ enum Genre {
 class Profil {
     id : entier
     nom : chaîne
+    prenom : chaîne
     age : entier
-    genre : chaîne
     ville : chaîne
     quartier : chaîne
     textePresentation : chaîne
     centresInterets : liste chaîne
     photos : liste images
-    interets : HashMap Profil,booléen
+    profilsInteressant : HashMap Profil,booléen
     estBloque : booléen
     notifMail : booléen
     agePrefere : entier
-    genrePrefere : chaîne
+    genrePrefere : Genre
     ProximiteGeograhpique: chaîne
     bloqueConversation : HashMap Profil,Profil
-    Profil(nom : chaîne, age : entier, genre : chaîne, ville : chaîne,
+    Profil(nom : chaîne, prenom : chaîne, age : entier, genre : Genre, ville : chaîne,
     quartier : chaîne, presentation : chaîne, interets : liste chaîne)
-    mettreAJourPreferences(age : entier, genre : chaîne, lieu : chaîne)
-    signalerProfil(user : Profil)
-    signalerMessage(message : Message)
-    envoyerMessage(destinataire : Profil, contenu : chaîne)
-    mettreAJourInfos(presentation : chaîne)
-    setEstBloque()
+    getId() : entier
+    getNom() : chaîne
+    getPrenom() : chaîne
+    getAge() : entier
+    getGenre() : Genre
+    getVille() : chaîne
+    getQuartier() : chaîne
+    getPresentation() : chaîne
+    getCentresInterets() : liste de chaîne
+    getPhotos() : liste images
+    getProfilInterets() : HashMap Profil,booléen
+    getEstBloque() : booléen
     getNotifMail() : booléen
-    setNotifMail()
-    modifierMessage(message : Message, contenu : chaîne)
-    supprimerMessage(message : Message)
-    supprimerNotification(notification : Notification)
+    getAgePreferer() : entier
+    getGenrePreferer() : Genre
+    getProximiteGeographique() : chaîne
+    getBloqueConversation() : HashMap Profil,Profil
+    mettreAJourProfil(nom : chaîne, prenom : chaîne, age : entier, genre : chaîne, ville : chaîne,
+    quartier : chaîne, presentation : chaîne, interets : liste chaîne, photos : liste images) : rien
+    setProfilInterets(interets : HashMap Profil,booléen) : rien
+    setEstBloque(bloque : booléen) : rien
+    setNotifMail(notif : booléen) : rien
+    mettreAJourPreferences(agePref : entier, genrePref : Genre, lieuProximite : chaîne) : rien
+    setBloqueConversation(bloqueConversation : HashMap Profil,Profil) : rien
+    signalerProfil(user : Profil) : rien
+    signalerMessage(message : Message) : rien
+    envoyerMessage(destinataire : Profil, contenu : chaîne) : rien
+    modifierMessage(message : Message, contenu : chaîne) : rien
+    supprimerMessage(message : Message) : rien
+    supprimerNotification(notification : Notification) : rien
     possibleMatch(binome : Profil) : booléen
     peutEnvoyerMessage(destinataire : Profil) : booléen
-    ajoutInteresser(user : Profil)
+    ajoutInteresser(user : Profil) : rien
     rechercher(chaîne... profils) : liste Profil
 }
 
@@ -48,7 +67,7 @@ class Message {
     getContenu() : chaîne
     getExpediteur() : Profil
     getDestinataire() : Profil
-    setContenu(contenu : chaîne)
+    setContenu(contenu : chaîne) : rien
 }
 
 class Notification {
@@ -56,7 +75,8 @@ class Notification {
     envoi()
     getContenu() : chaîne
     getDestinataire() : Profil
-    setContenu(contenu : chaîne)
+    setContenu(contenu : chaîne) : rien
+    setDestinataire(dest : Profil) : rien
 }
 
 class Match {
@@ -75,11 +95,11 @@ class Signalement {
 class Moderateur {
     id : entier
     nom : chaîne
-    Moderateur(nom : chaîne)
-    verifierSignalement(signalement : Signalement)
-    bloquerProfil(profil : Profil)
-    communiquer(profil : Profil)
-    verifierInscription(profil : Compte) : booléen
+    Moderateur(id : entier, nom : chaîne)
+    verifierSignalement(signalement : Signalement) : rien
+    bloquerProfil(profil : Profil) : rien
+    communiquer(profil : Profil) : rien
+    verifierInscription(compte : Compte) : booléen
 }
 
 
@@ -88,10 +108,13 @@ class Compte {
     email : chaîne
     motDePasse : chaîne
     document : image
-    inscrire(email : chaîne, pseudo : chaîne, mdp : chaîne)
+    inscrire(email : chaîne, pseudo : chaîne, mdp : chaîne) : rien
     connecter(psuedo : chaîne, email : chaîne, mdp : chaîne) : booléen
-    verifierDocument(doc : image) : booléen
-    reinitialiserMotDePasse(newMdp : chaîne)
+    reinitialiserMotDePasse(newMdp : chaîne) : rien
+}
+
+class Main{
+    main(String args[]) : rien
 }
 
 enum TypeNotif{
@@ -103,18 +126,20 @@ enum TypeNotif{
 
 
 '--- Relations ---'
-Profil "2" -- "0..*" Message : conversation
+Profil "1" -- "0..*" Message : expediteur
+Profil "1" -- "0..*" Message : destinataire
 Profil "2" -- "0..*" Match : intéressé
 Profil "1" -- "0..*" Signalement : victime
 Profil "1" <-- "0..*" Signalement : fautif
 Moderateur "1" --> "0..*" Signalement : verifieSignalement
 Message "0..1" <-- "1" Signalement : messageOffensant
 Profil "1" -- "0..*" Notification : reçoit
-Profil "1" -- "1" Genre : identifieComme
+Profil "0..*" -- "1" Genre : identifieComme
 Compte "0..*" <-- "1" Moderateur : verifierDocument
 Compte "0..1" -- "1" Profil : permetLaConnexion
-Notification "1"--"1" TypeNotif : type
+Notification "0..*" -- "1" TypeNotif : type
 '(Classe pour une liste de profils recommandés)'
-Profil "0..*"--"0..*" Profil : recommendations
+Profil "0..*" -- "0..*" Profil : recommendations
+Main "1" ---> "0..1" Compte : main
 
 @enduml
