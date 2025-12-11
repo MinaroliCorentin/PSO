@@ -129,14 +129,14 @@ enum TypeNotif{
 Profil "1" -- "0..*" Message : expediteur
 Profil "1" -- "0..*" Message : destinataire
 Profil "2" -- "0..*" Match : intéressé
-Profil "1" -- "0..*" Signalement : victime
+Profil "1" <-- "0..*" Signalement : victime
 Profil "1" <-- "0..*" Signalement : fautif
 Moderateur "1" --> "0..*" Signalement : verifieSignalement
 Message "0..1" <-- "1" Signalement : messageOffensant
 Profil "1" -- "0..*" Notification : reçoit
 Profil "0..*" -- "1" Genre : identifieComme
 Compte "0..*" <-- "1" Moderateur : verifierDocument
-Compte "0..1" -- "1" Profil : permetLaConnexion
+Compte "0..1" -- "1" Profil : connexion
 Notification "0..*" -- "1" TypeNotif : type
 '(Classe pour une liste de profils recommandés)'
 Profil "0..*" -- "0..*" Profil : recommendations
