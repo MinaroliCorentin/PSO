@@ -7,7 +7,7 @@ enum Genre {
 }
 
 '--- Classes ---'
-class Utilisateur {
+class Profil {
     id : entier
     nom : chaîne
     age : entier
@@ -16,20 +16,20 @@ class Utilisateur {
     quartier : chaîne
     textePresentation : chaîne
     centresInterets : liste chaîne
-    photos : liste Images
-    interets : HashMap Utilisateur,booléen
+    photos : liste images
+    interets : HashMap Profil,booléen
     estBloque : booléen
     notifMail : booléen
     agePrefere : entier
     genrePrefere : chaîne
     ProximiteGeograhpique: chaîne
-    bloqueConversation : HashMap Utilisateur,Utilisateur
-    Utilisateur(nom : chaîne, age : entier, genre : chaîne, ville : chaîne,
+    bloqueConversation : HashMap Profil,Profil
+    Profil(nom : chaîne, age : entier, genre : chaîne, ville : chaîne,
     quartier : chaîne, presentation : chaîne, interets : liste chaîne)
     mettreAJourPreferences(age : entier, genre : chaîne, lieu : chaîne)
-    signalerUtilisateur(user : Utilisateur)
+    signalerProfil(user : Profil)
     signalerMessage(message : Message)
-    envoyerMessage(destinataire : Utilisateur, contenu : chaîne)
+    envoyerMessage(destinataire : Profil, contenu : chaîne)
     mettreAJourInfos(presentation : chaîne)
     setEstBloque()
     getNotifMail() : booléen
@@ -37,18 +37,17 @@ class Utilisateur {
     modifierMessage(message : Message, contenu : chaîne)
     supprimerMessage(message : Message)
     supprimerNotification(notification : Notification)
-    possibleMatch(binome : Utilisateur) : booléen
-    getInteresser() : liste Utilisateur
-    peutEnvoyerMessage(destinataire : Utilisateur) : booléen
-    ajoutInteresser(user : Utilisateur)
-    rechercher(chaîne... profils) : liste Utilisateur
+    possibleMatch(binome : Profil) : booléen
+    peutEnvoyerMessage(destinataire : Profil) : booléen
+    ajoutInteresser(user : Profil)
+    rechercher(chaîne... profils) : liste Profil
 }
 
 class Message {
     contenu : chaîne
     getContenu() : chaîne
-    getExpediteur() : Utilisateur
-    getDestinataire() : Utilisateur
+    getExpediteur() : Profil
+    getDestinataire() : Profil
     setContenu(contenu : chaîne)
 }
 
@@ -56,20 +55,21 @@ class Notification {
     contenu : chaîne
     envoi()
     getContenu() : chaîne
-    getDestinataire() : Utilisateur
+    getDestinataire() : Profil
     setContenu(contenu : chaîne)
 }
 
 class Match {
-    Match(user1 : Utilisateur, user2 : Utilisateur)
-    getUser1() : Utilisateur
-    getUser2() : Utilisateur
+    Match(user1 : Profil, user2 : Profil)
+    getUser1() : Profil
+    getUser2() : Profil
 }
 
 class Signalement {
     id : entier
-    Signalement(user : Utilisateur)
-    Signalement(user : Utilisateur, message : Message)
+    raisonSignalement : chaîne
+    Signalement(user : Profil)
+    Signalement(user : Profil, message : Message)
 }
 
 class Moderateur {
@@ -77,18 +77,20 @@ class Moderateur {
     nom : chaîne
     Moderateur(nom : chaîne)
     verifierSignalement(signalement : Signalement)
-    bloquerUtilisateur(utilisateur : Utilisateur)
-    communiquer(utilisateur : Utilisateur)
-    verifierInscription(utilisateur : Utilisateur) : booléen
+    bloquerProfil(profil : Profil)
+    communiquer(profil : Profil)
+    verifierInscription(profil : Compte) : booléen
 }
 
 
-class Authentification {
+class Compte {
     pseudo : chaîne
     email : chaîne
     motDePasse : chaîne
+    document : image
     inscrire(email : chaîne, pseudo : chaîne, mdp : chaîne)
     connecter(psuedo : chaîne, email : chaîne, mdp : chaîne) : booléen
+    verifierDocument(doc : image) : booléen
     reinitialiserMotDePasse(newMdp : chaîne)
 }
 
@@ -101,18 +103,18 @@ enum TypeNotif{
 
 
 '--- Relations ---'
-Utilisateur "2" -- "0..*" Message : envoie/recoit
-Utilisateur "2" -- "0..*" Match : entre Utilisateur
-Utilisateur "1" -- "0..*" Signalement : signale/est Signaler par
-Utilisateur "1" <-- "0..*" Signalement : fautif
-Moderateur "1" -- "0..*" Signalement : traite
-Message "1" <-- "1" Signalement : messageOffensant
-Utilisateur "1" -- "0..*" Notification : reçoit
-Utilisateur "1" -- "1" Genre : identifieComme
-Authentification "0..*" -- "1" Moderateur : confirmerInscription
-Authentification "0..1" -- "1" Utilisateur : PermetLaConnection
+Profil "2" -- "0..*" Message : conversation
+Profil "2" -- "0..*" Match : intéressé
+Profil "1" -- "0..*" Signalement : victime
+Profil "1" <-- "0..*" Signalement : fautif
+Moderateur "1" --> "0..*" Signalement : verifieSignalement
+Message "0..1" <-- "1" Signalement : messageOffensant
+Profil "1" -- "0..*" Notification : reçoit
+Profil "1" -- "1" Genre : identifieComme
+Compte "0..*" <-- "1" Moderateur : verifierDocument
+Compte "0..1" -- "1" Profil : permetLaConnexion
 Notification "1"--"1" TypeNotif : type
 '(Classe pour une liste de profils recommandés)'
-Utilisateur "0..*"--"0..*" Utilisateur : recommendations
+Profil "0..*"--"0..*" Profil : recommendations
 
 @enduml
