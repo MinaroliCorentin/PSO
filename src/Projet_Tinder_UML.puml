@@ -140,6 +140,6 @@ Compte "0..1" -- "1" Profil : permetLaConnexion
 Notification "0..*" -- "1" TypeNotif : type
 '(Classe pour une liste de profils recommandés)'
 Profil "0..*" -- "0..*" Profil : recommendations
-Main "1" ---> "0..1" Compte : main
+Main "1" ---> "1" Compte : application
 
 @enduml
